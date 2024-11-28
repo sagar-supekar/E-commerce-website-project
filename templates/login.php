@@ -1,13 +1,13 @@
 <?php
+ob_start();
 //session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 include("/home/web/public_html/E-commerce website/includes/header.php");
+include("/home/web/public_html/E-commerce website/includes/second_header.php");
 ?>
-
 <?php
-
 $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 
 if (mysqli_connect_error()) {
@@ -17,9 +17,7 @@ if (mysqli_connect_error()) {
 }
 ?>
 <!-- validate username and password if match then set the session variable and set the cookie -->
-
 <?php
-
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -67,6 +65,7 @@ if (array_key_exists('email', $_POST) || array_key_exists('password', $_POST)) {
 
     mysqli_close($link);
 }
+ob_end_flush();
 ?>
 
 <!DOCTYPE html>

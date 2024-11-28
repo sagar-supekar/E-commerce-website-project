@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 include("/home/web/public_html/E-commerce website/includes/header.php");
+include("/home/web/public_html/E-commerce website/includes/second_header.php");
 
 $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 if (mysqli_connect_error()) {

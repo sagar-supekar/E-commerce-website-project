@@ -19,7 +19,25 @@ if ($user_id) {
     }
 }
 ?>
+<?php
+if (isset($user_id)) {
+    $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
+    if ($link) {
 
+        $query = "SELECT COUNT(*) AS cart_count FROM cart_details WHERE user_id = '$user_id'";
+        $result = mysqli_query($link, $query);
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $cart_count = $row['cart_count'];
+        } else {
+            $cart_count = 0;
+        }
+    }
+    mysqli_close($link);
+} else {
+    $cart_count = 0;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,30 +80,28 @@ if ($user_id) {
         .navbar-toggler-icon {
             background-color: white;
         }
-        
-.dropdown-menu {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    visibility: hidden;
-    position: absolute;
-    z-index: 1050; 
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    min-width: 200px;
-    z-index: 1050px;
-}
 
-/* Show the dropdown on hover */
-.dropdown:hover .dropdown-menu {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-    z-index: 1050px;
-}
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            visibility: hidden;
+            position: absolute;
+            z-index: 1050;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+            z-index: 1050px;
+        }
 
-
+        /* Show the dropdown on hover */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            visibility: visible;
+            opacity: 1;
+            z-index: 1050px;
+        }
     </style>
 </head>
 
@@ -110,8 +126,13 @@ if ($user_id) {
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <div class="d-flex align-items-center">
 
-                    <a class="nav-link d-flex align-items-center me-3" href="<?php echo $user_id ? '/E-commerce website/templates/add_to_cart.php' : '/E-commerce website/templates/login.php'; ?>">
-                        <i class="bi bi-cart me-1"></i> Cart
+                    <a class="nav-link d-flex align-items-center me-3" href="<?php echo $user_id ? '/E-commerce website/templates/show_cart_items.php?user_id='.$user_id : '/E-commerce website/templates/login.php'; ?>" style="position: relative;">
+                        <i class="bi bi-cart me-1"></i>
+                        <!-- Badge for cart count -->
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.75rem; padding: 0.25em 0.5em;">
+                            <?php echo $cart_count > 0 ? $cart_count : 0; ?>
+                        </span>
+                        Cart
                     </a>
 
                     <!-- User Name (Visible only if logged in) -->
@@ -129,7 +150,7 @@ if ($user_id) {
 
                     <?php if ($username): ?>
                         <div class="dropdown mx-3">
-                            <button class="btn btn-secondary dropdown-toggle d-flex align-items-center" type="button" id="profileDropdown" >
+                            <button class="btn btn-secondary dropdown-toggle d-flex align-items-center" type="button" id="profileDropdown">
                                 <i class="bi bi-person me-2"></i> Profile
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="profileDropdown">

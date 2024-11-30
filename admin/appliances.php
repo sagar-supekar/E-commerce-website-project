@@ -84,7 +84,7 @@ $number_of_page = ceil ($number_of_result / $results_per_page);
 if ($result) {
     echo "<div class='container mt-4'>
             <div class='row'>";
-    
+    // echo "<div class='text-center'>Appliances</div>";
     while ($row = mysqli_fetch_assoc($result)) {
         if($row['category']=='appliances')
         {
@@ -93,8 +93,9 @@ if ($result) {
         $product_description = htmlspecialchars($row['description']);
         $image_path = htmlspecialchars($row['image_path']);
         $category = htmlspecialchars($row['category']);
-        
+       
         echo "
+
         <div class='col-md-4 mb-4' id='content'>
             <div class='card' style='width: 100%;'>
                 <img class='card-img-top' src='/E-commerce website/admin//$image_path' alt='$product_name' style='height: 350px; object-fit: cover;'>

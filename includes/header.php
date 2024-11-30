@@ -155,7 +155,7 @@ if (isset($user_id)) {
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                                 <li><a class="dropdown-item" href="#">My Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Order History</a></li>
+                                <li><a class="dropdown-item" href="/E-commerce website/templates/order_history.php?user_id=<?php echo $user_id; ?>">Order History</a></li>
                                 <li><a class="dropdown-item" href="#">Logout</a></li>
                             </ul>
                         </div>

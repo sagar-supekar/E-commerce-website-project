@@ -49,7 +49,7 @@
                 <ul class="navbar-nav m-auto">
                     <!-- Mobile Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/E-commerce website/admin/mobiles.php" id="mobileDropdown" role="button">
+                        <a class="nav-link dropdown-toggle" href="/E-commerce website/templates/category/mobile.php" id="mobileDropdown" role="button">
                             Mobile
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="mobileDropdown">
@@ -60,7 +60,7 @@
                     
                     <!-- Electronics Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/E-commerce website/admin/electronics.php"id="electronicsDropdown" role="button" >
+                        <a class="nav-link dropdown-toggle" href="/E-commerce website/templates/category/electronics.php"id="electronicsDropdown" role="button" >
                             Electronics
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="electronicsDropdown">
@@ -72,7 +72,7 @@
 
                     <!-- Appliances Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/E-commerce website/admin/appliances.php" id="appliancesDropdown" role="button">
+                        <a class="nav-link dropdown-toggle" href="/E-commerce website/templates/category/appliances.php" id="appliancesDropdown" role="button">
                             Appliances
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="appliancesDropdown">

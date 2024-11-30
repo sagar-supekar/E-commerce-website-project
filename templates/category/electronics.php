@@ -176,7 +176,7 @@ if (!$link) {
 }
 
 $results_per_page = 6;
-$query = "SELECT * FROM e_product_details";
+$query = "SELECT * FROM e_product_details where category='electronics'";
 $result = mysqli_query($link, $query);
 $number_of_result = mysqli_num_rows($result);
 
@@ -191,6 +191,8 @@ if ($result) {
     echo "<div class='product-container'>";
 
     while ($row = mysqli_fetch_assoc($result)) {
+        if($row['category']=='electronics')
+        {
         $product_name = htmlspecialchars($row['product_name']);
         $product_price = htmlspecialchars($row['price']);
         $product_description = htmlspecialchars($row['description']);
@@ -243,6 +245,7 @@ if ($result) {
                 </div>
             ";
         }
+    }
     }
 
     echo "</div>";

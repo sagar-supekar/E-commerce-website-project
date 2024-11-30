@@ -208,15 +208,15 @@ ob_end_flush();
             <form id="registerForm" method="POST">
                 <h2 class="form-header d-flex justify-content-content">Register</h2>
                 <div>
-                    <input type="text" id="name" placeholder="Full Name" name="full-name" class="input-field" required>
+                    <input type="text" id="name" placeholder="Full Name" name="full-name" class="input-field">
                     <div id="nameError" class="error"><?php echo $nameErr; ?></div>
                 </div>
                 <div>
-                    <input type="email" id="email" class="input-field" placeholder="Email" name="email" required>
+                    <input type="email" id="email" class="input-field" placeholder="Email" name="email">
                     <div id="emailError" class="error"><?php echo $emailErr; ?></div>
                 </div>
                 <div>
-                    <input type="password" id="password" placeholder="Password" name="password" class="input-field" required>
+                    <input type="password" id="password" placeholder="Password" name="password" class="input-field">
                     <div id="passwordError" class="error"><?php echo $passErr; ?></div>
                 </div>
                 <button type="submit">Register</button>

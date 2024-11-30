@@ -176,7 +176,7 @@ if (!$link) {
 }
 
 $results_per_page = 6;
-$query = "SELECT * FROM e_product_details";
+$query = "SELECT * FROM e_product_details where category='appliances'";
 $result = mysqli_query($link, $query);
 $number_of_result = mysqli_num_rows($result);
 
@@ -184,13 +184,15 @@ $number_of_page = ceil($number_of_result / $results_per_page);
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $page_first_result = ($page - 1) * $results_per_page;
 
-$query = "SELECT * FROM e_product_details LIMIT $page_first_result, $results_per_page";
+$query = "SELECT * FROM e_product_details where category='appliances' LIMIT $page_first_result, $results_per_page";
 $result = mysqli_query($link, $query);
 
 if ($result) {
     echo "<div class='product-container'>";
 
     while ($row = mysqli_fetch_assoc($result)) {
+        if($row['category']=='appliances')
+        {
         $product_name = htmlspecialchars($row['product_name']);
         $product_price = htmlspecialchars($row['price']);
         $product_description = htmlspecialchars($row['description']);
@@ -243,6 +245,7 @@ if ($result) {
                 </div>
             ";
         }
+    }
     }
 
     echo "</div>";

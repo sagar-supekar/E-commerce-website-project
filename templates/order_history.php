@@ -11,10 +11,9 @@ if (mysqli_connect_error()) {
 } 
 
 // Fetch order details for the logged-in user
-$query = "SELECT *
-          FROM order_details  
-          WHERE user_id = '$user_id'";
+$query = "SELECT * FROM order_details WHERE user_id = '$user_id'";
 $result = mysqli_query($link, $query);
+
 ?>
 
 <!DOCTYPE html>
@@ -75,12 +74,9 @@ $result = mysqli_query($link, $query);
     <div class="container my-5">
         <h2 class="text-center">Order History</h2>
         <?php if (mysqli_num_rows($result) > 0): ?>
-            <?php $count=1;?>
+            <?php $count=1; ?>
             <?php while ($row = mysqli_fetch_assoc($result)): ?>
                 <div class="order-item">
-                    <!-- Order Number -->
-                    <!-- <div class="d-flex justify-content-top"> <?php echo $count++;?></div> -->
-                    
                     <!-- Product Image -->
                     <img src="/E-commerce website/admin/<?php echo htmlspecialchars($row['image_path']); ?>" alt="Product Image">
                     <div class="order-item-details">
@@ -111,7 +107,7 @@ $result = mysqli_query($link, $query);
 
                         <div>
                             <a href="/E-commerce website/templates/edit_order.php?order_id=<?php echo $row['order_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                            <a href="delete_order.php?order_id=<?php echo $row['order_id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this order?')">Cancel Order</a>
+                            <a href="/E-commerce website/templates/delete_order.php?user_id=<?php echo $user_id; ?>&product_id=<?php echo $row['product_id']; ?>&remark=delete_order" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this order?')">Cancel Order</a>
                         </div>
                     </div>
                 </div>

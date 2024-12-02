@@ -181,3 +181,4 @@ function generateQuantityOptions() {
         });
     });
 </script>
+<!-- script for the show cart count without reloading the page -->

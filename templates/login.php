@@ -1,6 +1,5 @@
 <?php
 ob_start();
-//session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -35,7 +34,7 @@ if (array_key_exists('email', $_POST) || array_key_exists('password', $_POST)) {
     //check validation for the admin user 
     if ($username == "root" && $password == "root") {
         $_SESSION['username'] = $username;
-        // header("Location:code files/admin_home.php");
+        header("Location:/E-commerce website/admin/admin_home.php");
     } else {
 
         $query = "SELECT * FROM e_login_table WHERE email='$username'";
@@ -44,12 +43,10 @@ if (array_key_exists('email', $_POST) || array_key_exists('password', $_POST)) {
 
             $row = mysqli_fetch_assoc($result);
             $hash_password = $row["password"];
-            $_SESSION['login_id'] = $row['id'];
-
             if (password_verify($password, $hash_password)) {
                 $success = "<p>Login successful</p>";
-                // $_SESSION['login_id'] = $row['id'];
                 setcookie('login_id', $row['id'], time() + 24 * 60 * 60 * 365);
+                $_SESSION['login_id']=$_COOKIE['login_id'];
                 header("Location: welcome.php");
                 exit();
             } else {
@@ -198,7 +195,7 @@ ob_end_flush();
                 <?php } ?>
                 <div class="mb-3">
                     <label for="username" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="username" placeholder="Enter your email" name="username" required>
+                    <input type="text" class="form-control" id="username" placeholder="Enter your email" name="username" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>

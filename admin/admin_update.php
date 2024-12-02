@@ -9,39 +9,49 @@ if (!$link) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+$product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
+
+if ($product_id) {
+    // Fetch current product details
+    $query = "SELECT * FROM e_product_details WHERE product_id = $product_id";
+    $result = mysqli_query($link, $query);
+    if ($result) {
+        $product = mysqli_fetch_assoc($result);
+    } else {
+        echo "Error fetching product details: " . mysqli_error($link);
+        exit();
+    }
+} else {
+    echo "Product ID is missing.";
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Getting POST data
+    // Get POST data
     $product_name = $_POST['product_name'];
     $product_price = $_POST['price'];
     $product_description = $_POST['description'];
     $category = $_POST['category'];
     $quantity = $_POST['quantity'];
+    $image_path = $product['image_path']; // Keep the current image by default
 
-    // Handling the image upload
+    // Handle the image upload if a new image is provided
     if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] == 0) {
         $image_name = $_FILES['product_image']['name'];
         $image_tmp = $_FILES['product_image']['tmp_name'];
         $upload_dir = 'uploads/';
         $image_path = $upload_dir . basename($image_name);
 
-        // Validate file type (optional)
+        // Validate image type
         $valid_image_types = ['image/jpeg', 'image/png', 'image/gif'];
         $image_type = mime_content_type($image_tmp);
 
         if (in_array($image_type, $valid_image_types)) {
             // Move uploaded file to the desired directory
             if (move_uploaded_file($image_tmp, $image_path)) {
-                // Prepare the SQL query
-                $query = "INSERT INTO e_product_details (product_name, category, price, description, image_path,quantity) 
-                          VALUES ('$product_name', '$category', '$product_price', '$product_description', '$image_path','$quantity')";
-                          
-                // Execute the query
-                $result = mysqli_query($link, $query);
-                
-                if ($result) {
-                    echo "Product added successfully.";
-                } else {
-                    echo "Error: " . mysqli_error($link);
+                // If new image uploaded, delete the old one (optional)
+                if (file_exists($product['image_path']) && $product['image_path'] != $image_path) {
+                    unlink($product['image_path']);
                 }
             } else {
                 echo "Failed to upload image.";
@@ -49,25 +59,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo "Invalid image type. Only JPEG, PNG, and GIF are allowed.";
         }
+    }
+
+    // Prepare and execute update query
+    $query = "UPDATE e_product_details 
+              SET product_name = '$product_name', category = '$category', price = '$product_price', 
+                  description = '$product_description', image_path = '$image_path', quantity = '$quantity'
+              WHERE product_id = $product_id";
+    
+    if (mysqli_query($link, $query)) {
+        header("Location: admin_home.php?update_message=" . urlencode('Record update successfully'));
     } else {
-        echo "Error with the image upload.";
+        echo "Error: " . mysqli_error($link);
     }
 }
 
 mysqli_close($link);
 ?>
 
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
+    <title>Update Product</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -125,45 +140,42 @@ mysqli_close($link);
 </head>
 <body>
     <div class="form-container">
-    <div class="d-flex justify-content-start">
-        <a href="admin_home.php" 
-        class="btn-close" 
-        aria-label="Close" 
-        style="font-size: 24px; text-decoration: none;">X</a>
-
-    </div>
-        <h2>Add Product</h2>
-        <form  method="POST" enctype="multipart/form-data">
+        <h2>Update Product</h2>
+        <form method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="productName">Product Name:</label>
-                <input type="text" id="productName" name="product_name" required>
+                <input type="text" id="productName" name="product_name" value="<?php echo $product['product_name']; ?>" required>
             </div>
             <div class="form-group">
                 <label for="category">Category:</label>
                 <select id="category" name="category" required>
-                    <option value="mobile">Select Category</option>
-                    <option value="mobile">Mobile</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="appliances">Appliances</option>
+                    <option value="mobile" <?php if ($product['category'] == 'mobile') echo 'selected'; ?>>Mobile</option>
+                    <option value="electronics" <?php if ($product['category'] == 'electronics') echo 'selected'; ?>>Electronics</option>
+                    <option value="appliances" <?php if ($product['category'] == 'appliances') echo 'selected'; ?>>Appliances</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="price">Price:</label>
-                <input type="number" id="price" name="price"  required>
+                <input type="number" id="price" name="price" value="<?php echo $product['price']; ?>" required>
             </div>
             <div class="form-group">
-                <label for="price">Quantity:</label>
-                <input type="number" id="price" name="quantity"  required>
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" value="<?php echo $product['quantity']; ?>" required>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea id="description" name="description" rows="4" required></textarea>
+                <textarea id="description" name="description" rows="4" required><?php echo $product['description']; ?></textarea>
             </div>
             <div class="form-group">
-                <label for="productImage">Upload Image:</label>
-                <input type="file" id="productImage" name="product_image" accept="image/*" required>
+                <label for="productImage">Upload Image (Optional):</label>
+                <input type="file" id="productImage" name="product_image" accept="image/*">
+                <br><br>
+                <?php if ($product['image_path']) : ?>
+                    <img src="<?php echo $product['image_path']; ?>" alt="Product Image" width="100">
+                    <p>Current Image</p>
+                <?php endif; ?>
             </div>
-            <button type="submit">Add Product</button>
+            <button type="submit">Update Product</button>
         </form>
     </div>
 </body>

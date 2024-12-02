@@ -8,11 +8,6 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 14px;
     }
-
-    #buy-now {
-        /* background-color: #fd7e14; */
-    }
-
     .product-container {
         display: flex;
         flex-wrap: wrap;
@@ -189,7 +184,6 @@ $result = mysqli_query($link, $query);
 
 if ($result) {
     echo "<div class='product-container'>";
-
     while ($row = mysqli_fetch_assoc($result)) {
         $product_name = htmlspecialchars($row['product_name']);
         $product_price = htmlspecialchars($row['price']);
@@ -218,30 +212,31 @@ if ($result) {
             ";
         } else {
             echo "
-                <div class='product-item'>
-                    <img class='product-image' src='/E-commerce website/admin/$image_path' alt='$product_name'>
-                    <div class='product-details'>
-                        <a href='/E-commerce website/templates/product_detail.php?product_id=$product_id' style='text-decoration:none'>
-                            <p class='product-name'>$product_name</p> 
-                        </a>
-                        <p class='product-price'>₹ $product_price</p>
-                        <div class='product-actions' id='product-button'>
-                            <a href='" . (isset($login_id) && !empty($login_id) 
-                                ? '/E-commerce website/templates/buy_now.php?product_id='. $product_id.'&user_id='.$login_id
-                                : '/E-commerce website/templates/login.php') . "' 
-                                class='btn btn-buy-now' id='buy-now'>
-                                Buy Now
-                            </a>
-                            <a href='" . (isset($login_id) && !empty($login_id) 
-                                ? '/E-commerce website/templates/add_to_cart.php?product_id='. $product_id.'&user_id='.$login_id
-                                : '/E-commerce website/templates/login.php') . "' 
-                                class='btn btn-warning'>
-                                 To Cart
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            ";
+    <div class='product-item'>
+        <img class='product-image' src='/E-commerce website/admin/$image_path' alt='$product_name'>
+        <div class='product-details'>
+            <a href='/E-commerce website/templates/product_detail.php?product_id=$product_id&user_id=$login_id' style='text-decoration:none'>
+                <p class='product-name'>$product_name</p> 
+            </a>
+            <p class='product-price'>₹ $product_price</p>
+            <div class='product-actions' id='product-button'>
+                <a href='" . (isset($login_id) && !empty($login_id) 
+                    ? '/E-commerce website/templates/buy_now.php?product_id=' . $product_id . '&user_id=' . $login_id
+                    : '/E-commerce website/templates/login.php') . "' 
+                    class='btn btn-buy-now' id='buy-now'>
+                    Buy Now
+                </a>
+                <a href='" . (isset($login_id) && !empty($login_id) 
+                    ? '/E-commerce website/templates/add_to_cart.php?product_id=' . $product_id . '&user_id=' . $login_id
+                    : '/E-commerce website/templates/login.php') . "' 
+                    class='btn btn-warning' onclick='addToCart($product_id); return false;'>
+                    To Cart
+                </a>
+            </div>
+        </div>
+    </div>
+";
+
         }
     }
 
@@ -282,3 +277,4 @@ echo "</div>";
 <?php
 include("/home/web/public_html/E-commerce website/includes/footer.php");
 ?>
+<!-- script for cart count -->

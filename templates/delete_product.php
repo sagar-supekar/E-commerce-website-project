@@ -13,13 +13,17 @@ if (isset($_GET['user_id'])) {
     $product_id = mysqli_real_escape_string($link, $_GET['product_id']);
     $user_id = mysqli_real_escape_string($link, $_GET['user_id']);
 
+
     // Delete the item from the cart
     $delete_query = "DELETE FROM cart_details WHERE product_id = '$product_id' AND user_id = '$user_id'";
 
     if (mysqli_query($link, $delete_query)) {
-        // Redirect to the show cart items page
-        header("Location: /E-commerce website/templates/show_cart_items.php");
-        exit(); // Ensure script stops execution after redirection
+        if (isset($_GET['remark'])) {
+            header("Location: /E-commerce website/templates/order_history.php?remark='delete item successfuly'");
+        } else {
+            header("Location: /E-commerce website/templates/show_cart_items.php");
+        }
+        exit(); 
     } else {
         echo "<p style='color: red;'>Error while deleting item: " . mysqli_error($link) . "</p>";
     }

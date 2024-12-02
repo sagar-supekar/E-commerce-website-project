@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $product_name = htmlspecialchars($row['product_name']);
         $product_price = htmlspecialchars($row['price']);
         $image_path = htmlspecialchars($row['image_path']);
+        $current_quantity = $row['quantity']; // Get the current stock quantity
     }
 
     // Form input
@@ -70,8 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $mobileErr = "Invalid Mobile Number. Must be 10 digits.";
         $errors[] = $mobileErr;
     }
-    if (empty($quantity) || !is_numeric($quantity) || $quantity <= 0 ||$quantity>=4) {
-        $quantityErr = "Quantity must be a positive number or not greater than 5.";
+    if (empty($quantity) || !is_numeric($quantity) || $quantity <= 0 || $quantity > 5) {
+        $quantityErr = "Quantity must be a positive number and not greater than 5.";
         $errors[] = $quantityErr;
     }
     if (empty($payment_method)) {
@@ -79,16 +80,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $errors[] = $paymentMErr;
     }
 
+    // Check if the requested quantity is available
+    if ($quantity > $current_quantity) {
+        $quantityErr = "Insufficient stock. Only $current_quantity items available.";
+        $errors[] = $quantityErr;
+    }
+
     if (empty($errors)) {
         // Insert order into database
         $query = "
-            INSERT INTO order_details (user_id, product_id, product_name, product_price, full_name, address, pincode, mobile_number, quantity, payment_method,image_path)
-            VALUES ('$user_id', '$product_id', '$product_name', '$product_price', '$full_name', '$address', '$pincode', '$mobile', $quantity, '$payment_method','$image_path')
+            INSERT INTO order_details (user_id, product_id, product_name, product_price, full_name, address, pincode, mobile_number, quantity, payment_method, image_path)
+            VALUES ('$user_id', '$product_id', '$product_name', '$product_price', '$full_name', '$address', '$pincode', '$mobile', $quantity, '$payment_method', '$image_path')
         ";
         if (mysqli_query($link, $query)) {
             echo "<p style='color: green; text-align: center;'>Order placed successfully!</p>";
+            
+            // Update the product quantity after placing the order
             $update_query = "UPDATE e_product_details SET quantity = quantity - $quantity WHERE product_id = '$product_id'";
             mysqli_query($link, $update_query);
+            
+            // To check if the stock is less than zero, set it to zero
+            if ($current_quantity - $quantity <= 0) {
+                $update_query = "UPDATE e_product_details SET quantity = 0 WHERE product_id = '$product_id'";
+                mysqli_query($link, $update_query);
+            }
         } else {
             echo "<p style='color: red; text-align: center;'>Error placing order: " . mysqli_error($link) . "</p>";
         }
@@ -111,7 +126,6 @@ if (isset($_GET["product_id"])) {
 mysqli_close($link);
 ob_end_flush();
 ?>
-
 
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Buy Product</h2>
@@ -163,11 +177,11 @@ ob_end_flush();
                                 <input type="radio" id="cod" name="payment_method" value="COD" <?php echo (isset($payment_method) && $payment_method == 'COD') ? 'checked' : ''; ?>>
                                 <label for="cod">Cash on Delivery</label><br>
                                 <input type="radio" id="online" name="payment_method" value="Online" <?php echo (isset($payment_method) && $payment_method == 'Online') ? 'checked' : ''; ?>>
-                                <label for="online">Online Payment</label>
-                                <span class="error" style="color:red;"><?php echo $paymentMErr; ?></span>
+                                <label for="online">Online Payment</label><br>
                             </div>
+                            <span class="error" style="color:red;"><?php echo $paymentMErr; ?></span>
                         </div>
-                        <button type="submit" class="btn btn-success w-100" name="submit">Place Order</button>
+                        <button type="submit" class="btn btn-primary" name="submit">Place Order</button>
                     </form>
                 </div>
             </div>

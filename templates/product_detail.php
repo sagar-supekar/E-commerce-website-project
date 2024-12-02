@@ -18,7 +18,7 @@ if (isset($_GET["product_id"])) {
     $product_id = $_GET["product_id"];
     $query = "SELECT * FROM e_product_details WHERE product_id='$product_id'";  
     $result = mysqli_query($link, $query);  
-    
+    $login_id = isset($_COOKIE['login_id']) ? $_COOKIE['login_id'] : null;
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $product_name = htmlspecialchars($row['product_name']);
@@ -41,23 +41,20 @@ if (isset($_GET["product_id"])) {
                     <p>$product_description</p>
                     <div class='row mt-2'>
                 <div class='col-6'>
-                    <a href='" . (isset($login_id) && !empty($login_id) 
-                                    ? '/E-commerce website/templates/buy_now.php' 
-                                    : '/E-commerce website/templates/login.php') . "' 
-                       class='btn btn-buy-now' 
-                       id='buy-now' 
-                       style='width: 100%; background-color: #007bff; color: white; font-weight: bold;'>
-                       Buy Now
-                    </a>
+                  <a href='" . (isset($login_id) && !empty($login_id) 
+                                ? '/E-commerce website/templates/buy_now.php?product_id='. $product_id.'&user_id='.$login_id
+                                : '/E-commerce website/templates/login.php') . "' 
+                                class='btn btn-primary' id='buy-now'>
+                                Buy Now
+                  </a>
                 </div>
                 <div class='col-6'>
-                    <a href='".(isset($login_id) && !empty($login_id) 
-                    ? '/E-commerce website/templates/add_to_cart.php?product_id='. $product_id.'&user_id='.$login_id
-                    : '/E-commerce website/templates/login.php') ."' 
-                       class='btn btn-warning' 
-                       style='width: 100%; font-weight: bold;'>
-                       Add To Cart
-                    </a>
+                   <a href='" . (isset($login_id) && !empty($login_id) 
+                                ? '/E-commerce website/templates/add_to_cart.php?product_id='. $product_id.'&user_id='.$login_id
+                                : '/E-commerce website/templates/login.php') . "' 
+                                class='btn btn-warning'>
+                                 To Cart
+                            </a>
                 </div>
             </div>
                 </div>

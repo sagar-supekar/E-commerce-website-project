@@ -62,3 +62,6 @@ if (isset($user_id)) {
 }
 
 ?>
+<?php
+include("/home/web/public_html/E-commerce website/includes/footer.php");
+?>

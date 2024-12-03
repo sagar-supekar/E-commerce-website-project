@@ -188,3 +188,6 @@ ob_end_flush();
         </div>
     <?php endif; ?>
 </div>
+<?php
+include("/home/web/public_html/E-commerce website/includes/footer.php");
+?>

@@ -112,8 +112,8 @@ if (isset($user_id)) {
         <div class="container-fluid">
 
             <a class="navbar-brand" href="/E-commerce website/templates/welcome.php">EzyBuy</a>
-
-
+            <a class="navbar-brand" href="/E-commerce website/templates/welcome.php"><i class="bi bi-house me-1"></i></a>
+            
             <form class="d-flex ms-auto justify-content-center">
                 <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button> -->

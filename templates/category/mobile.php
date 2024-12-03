@@ -10,11 +10,6 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 14px;
     }
-
-    #buy-now {
-        /* background-color: #fd7e14; */
-    }
-
     .product-container {
         display: flex;
         flex-wrap: wrap;

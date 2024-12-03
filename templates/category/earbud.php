@@ -1,7 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 include("/home/web/public_html/E-commerce website/includes/header.php");
 include("/home/web/public_html/E-commerce website/includes/second_header.php");
-
 ?>
 
 <style>
@@ -136,7 +137,7 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
 .product-item.out-of-stock::after {
     content: "Out of Stock";
     position: absolute;
-    top: 40%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 24px;
@@ -163,8 +164,8 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
 </style>
 
 <?php
-include("carousel.php");
 
+echo"<div class='d-flex justify-content-center my-2' ><h3>EARBUDS</h3></div>";
 $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 
 if (!$link) {
@@ -172,7 +173,7 @@ if (!$link) {
 }
 
 $results_per_page = 6;
-$query = "SELECT * FROM e_product_details";
+$query = "SELECT * FROM e_product_details where subcategory='earbuds'";
 $result = mysqli_query($link, $query);
 $number_of_result = mysqli_num_rows($result);
 
@@ -180,12 +181,16 @@ $number_of_page = ceil($number_of_result / $results_per_page);
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $page_first_result = ($page - 1) * $results_per_page;
 
-$query = "SELECT * FROM e_product_details LIMIT $page_first_result, $results_per_page";
+$query = "SELECT * FROM e_product_details WHERE subcategory='earbuds' LIMIT $page_first_result, $results_per_page";
 $result = mysqli_query($link, $query);
 
 if ($result) {
     echo "<div class='product-container'>";
+
     while ($row = mysqli_fetch_assoc($result)) {
+      //  echo  $row["subcategory"]."  ";
+        if($row['subcategory']=='earbuds')
+        {
         $product_name = htmlspecialchars($row['product_name']);
         $product_price = htmlspecialchars($row['price']);
         $product_description = htmlspecialchars($row['description']);
@@ -209,32 +214,36 @@ if ($result) {
             ";
         } else {
             echo "
-    <div class='product-item'>
-        <img class='product-image' src='/E-commerce website/admin/$image_path' alt='$product_name'>
-        <div class='product-details'>
-            <a href='/E-commerce website/templates/product_detail.php?product_id=$product_id&user_id=$login_id' style='text-decoration:none'>
-                <p class='product-name'>$product_name</p> 
-            </a>
-            <p class='product-price'>₹ $product_price</p>
-            <div class='product-actions' id='product-button'>
-                <a href='" . (isset($login_id) && !empty($login_id) 
-                    ? '/E-commerce website/templates/buy_now.php?product_id=' . $product_id . '&user_id=' . $login_id
-                    : '/E-commerce website/templates/login.php') . "' 
-                    class='btn btn-buy-now' id='buy-now'>
-                    Buy Now
-                </a>
-                <a href='" . (isset($login_id) && !empty($login_id) 
-                    ? '/E-commerce website/templates/add_to_cart.php?product_id=' . $product_id . '&user_id=' . $login_id
-                    : '/E-commerce website/templates/login.php') . "' 
-                    class='btn btn-warning' onclick='addToCart($product_id); return false;'>
-                    To Cart
-                </a>
-            </div>
-        </div>
-    </div>
-";
-
+                <div class='product-item'>
+                    <img class='product-image' src='/E-commerce website/admin/$image_path' alt='$product_name'>
+                    <div class='product-details'>
+                        <a href='/E-commerce website/templates/product_detail.php?product_id=$product_id' style='text-decoration:none'>
+                            <p class='product-name'>$product_name</p> 
+                        </a>
+                        <p class='product-price'>₹ $product_price</p>
+                        <div class='product-actions' id='product-button'>
+                            <a href='" . (isset($login_id) && !empty($login_id) 
+                                ? '/E-commerce website/templates/buy_now.php?product_id='. $product_id.'&user_id='.$login_id
+                                : '/E-commerce website/templates/login.php') . "' 
+                                class='btn btn-buy-now' id='buy-now'>
+                                Buy Now
+                            </a>
+                            <a href='" . (isset($login_id) && !empty($login_id) 
+                                ? '/E-commerce website/templates/add_to_cart.php?product_id='. $product_id.'&user_id='.$login_id
+                                : '/E-commerce website/templates/login.php') . "' 
+                                class='btn btn-warning'>
+                                 To Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            ";
         }
+    }
+    else
+    {
+       // echo "problem while fetching the items where category is keypad";
+    }
     }
 
     echo "</div>";
@@ -247,7 +256,7 @@ mysqli_close($link);
 echo "<div class='pagination'>";
 // When page = 1
 if ($page > 1) {
-    echo '<a href="welcome.php?page=' . ($page - 1) . '">Previous</a>';
+    echo '<a href="earbud.php?page=' . ($page - 1) . '">Previous</a>';
 } else {
     echo '<a href="#" class="disabled">Previous</a>';
 }
@@ -255,15 +264,15 @@ if ($page > 1) {
 // Highlight the active page
 for ($i = 1; $i <= $number_of_page; $i++) {
     if ($i == $page) {
-        echo '<a href="welcome.php?page=' . $i . '" class="active">' . $i . '</a>';
+        echo '<a href="earbud.php?page=' . $i . '" class="active">' . $i . '</a>';
     } else {
-        echo '<a href="welcome.php?page=' . $i . '">' . $i . '</a>';
+        echo '<a href="earbud.php?page=' . $i . '">' . $i . '</a>';
     }
 }
 
 // If current page is less than page size, add one more page
 if ($page < $number_of_page) {
-    echo '<a href="welcome.php?page=' . ($page + 1) . '">Next</a>';
+    echo '<a href="earbud.php?page=' . ($page + 1) . '">Next</a>';
 } else {
     echo '<a href="#" class="disabled">Next</a>';
 }
@@ -274,5 +283,3 @@ echo "</div>";
 <?php
 include("/home/web/public_html/E-commerce website/includes/footer.php");
 ?>
-<!-- script for cart count -->
-

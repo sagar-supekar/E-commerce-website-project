@@ -9,7 +9,7 @@
     <style>
         
         .navbar-nav .nav-item {
-            margin: 0 15px; 
+            margin: 0 0px; 
         }
         
         
@@ -45,39 +45,39 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+            <div class="collapse navbar-collapse d-flex justify-content-center " id="navbarNav">
                 <ul class="navbar-nav m-auto">
                     <!-- Mobile Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/E-commerce website/templates/category/mobile.php" id="mobileDropdown" role="button">
+                        <p class="nav-link dropdown-toggle">
                             Mobile
-                        </a>
+                        </p>
                         <ul class="dropdown-menu" aria-labelledby="mobileDropdown">
-                            <li><a class="dropdown-item" href="#">Keypad</a></li>
-                            <li><a class="dropdown-item" href="#">Touch Pad</a></li>
+                            <li><a class="dropdown-item" href="/E-commerce website/templates/category/keypad.php">Keypad</a></li>
+                            <li><a class="dropdown-item" href="/E-commerce website/templates/category/touchpad.php">Touch Pad</a></li>
                         </ul>
                     </li>
                     
                     <!-- Electronics Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/E-commerce website/templates/category/electronics.php"id="electronicsDropdown" role="button" >
+                        <p class="nav-link dropdown-toggle">
                             Electronics
-                        </a>
+                        </p>
                         <ul class="dropdown-menu" aria-labelledby="electronicsDropdown">
-                            <li><a class="dropdown-item" href="#">Laptop</a></li>
-                            <li><a class="dropdown-item" href="#">Smart Watches</a></li>
-                            <li><a class="dropdown-item" href="#">Earbuds</a></li>
+                            <li><a class="dropdown-item" href="/E-commerce website/templates/category/laptop.php">Laptop</a></li>
+                            <li><a class="dropdown-item" href="/E-commerce website/templates/category/smartwatches.php">Smart Watches</a></li>
+                            <li><a class="dropdown-item" href="/E-commerce website/templates/category/earbud.php">Earbuds</a></li>
                         </ul>
                     </li>
 
                     <!-- Appliances Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/E-commerce website/templates/category/appliances.php" id="appliancesDropdown" role="button">
+                        <p class="nav-link dropdown-toggle">
                             Appliances
-                        </a>
+                        </p>
                         <ul class="dropdown-menu" aria-labelledby="appliancesDropdown">
-                            <li><a class="dropdown-item" href="#">Washing Machine</a></li>
-                            <li><a class="dropdown-item" href="#">Refrigerator</a></li>
+                            <li><a class="dropdown-item" href="/E-commerce website/templates/category/washing_machine.php">Washing Machine</a></li>
+                            <li><a class="dropdown-item" href="/E-commerce website/templates/category/refregirator.php">Refrigerator</a></li>
                         </ul>
                     </li>
                 </ul>

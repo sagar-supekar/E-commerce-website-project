@@ -1,31 +1,24 @@
 <?php
-// Start the session
 session_start();
+$link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 
-// Unset all session variables
-session_unset();  
-
-// Destroy the session
-session_destroy();
-
-// Delete the session cookie (PHPSESSID)
-if (isset($_COOKIE[session_name()])) {
-    setcookie(session_name(), '', time() - 3600, '/'); // Set cookie expiration time to past to delete it
+if (mysqli_connect_error()) {
+    die("Connection error: " . mysqli_connect_error());
 }
 
-// Optionally, delete any other cookies you set for the user (e.g., 'login_id' or custom cookies)
-if (isset($_COOKIE['login_id'])) {
-    setcookie('login_id', '', time() - 3600, '/');  // Expire the 'login_id' cookie
-}
+$user_id = isset($_COOKIE['login_id']) ? $_COOKIE['login_id'] : null;
 
-// You can check if session variables are still set for debugging (remove later)
-if (isset($_SESSION['login_id'])) {
-    echo "Session variable is still set.";
+if ($user_id) {
+    $query = "SELECT COUNT(*) AS cart_count FROM cart_details WHERE user_id = '$user_id'";
+    $result = mysqli_query($link, $query);
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        echo $row['cart_count']; // Return only the cart count
+    } else {
+        echo 0; // Default to 0 if query fails
+    }
 } else {
-    echo "Session variable is destroyed.";
+    echo 0; // Default to 0 if no user is logged in
 }
 
-// Redirect the user to the login page or home page
-header('Location: login.php');  // Redirect to login page after logout
-exit();
-?>
+mysqli_close($link);

@@ -47,6 +47,7 @@ if (array_key_exists('email', $_POST) || array_key_exists('password', $_POST)) {
                 $success = "<p>Login successful</p>";
                 setcookie('login_id', $row['id'], time() + 24 * 60 * 60 * 365);
                 $_SESSION['login_id']=$_COOKIE['login_id'];
+               // echo "login id is".$_SESSION['login_id'];
                 header("Location: welcome.php");
                 exit();
             } else {

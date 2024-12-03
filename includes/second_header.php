@@ -36,7 +36,9 @@
         .dropdown-item {
             color: #fff; 
         }
-       
+       #c-button{
+        cursor: pointer;
+       }
     </style>
 </head>
 <body>
@@ -49,7 +51,7 @@
                 <ul class="navbar-nav m-auto">
                     <!-- Mobile Dropdown -->
                     <li class="nav-item dropdown">
-                        <p class="nav-link dropdown-toggle">
+                        <p class="nav-link dropdown-toggle" id="c-button">
                             Mobile
                         </p>
                         <ul class="dropdown-menu" aria-labelledby="mobileDropdown">
@@ -60,7 +62,7 @@
                     
                     <!-- Electronics Dropdown -->
                     <li class="nav-item dropdown">
-                        <p class="nav-link dropdown-toggle">
+                        <p class="nav-link dropdown-toggle"id="c-button">
                             Electronics
                         </p>
                         <ul class="dropdown-menu" aria-labelledby="electronicsDropdown">
@@ -72,7 +74,7 @@
 
                     <!-- Appliances Dropdown -->
                     <li class="nav-item dropdown">
-                        <p class="nav-link dropdown-toggle">
+                        <p class="nav-link dropdown-toggle"id="c-button">
                             Appliances
                         </p>
                         <ul class="dropdown-menu" aria-labelledby="appliancesDropdown">

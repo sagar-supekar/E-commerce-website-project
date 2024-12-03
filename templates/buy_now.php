@@ -27,7 +27,7 @@ if (!$link) {
 // Form submission handling
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $errors = [];
-    $user_id = $_GET['user_id'] ?? null;
+    $user_id = $_SESSION['login_id'] ?? null;
     $product_id = $_GET['product_id'] ?? null;
 
     if (!$product_id || !$user_id) {
@@ -104,6 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 $update_query = "UPDATE e_product_details SET quantity = 0 WHERE product_id = '$product_id'";
                 mysqli_query($link, $update_query);
             }
+            //check if given product is available in the cart execute the delete query to remove it 
         } else {
             echo "<p style='color: red; text-align: center;'>Error placing order: " . mysqli_error($link) . "</p>";
         }

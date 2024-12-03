@@ -94,12 +94,6 @@ $result = mysqli_query($link, $query);
                             <p class="label">Price:</p>
                             <p>₹<?php echo number_format($row['product_price'], 2); ?></p>
                         </div>
-                        
-                        <div>
-                            <p class="label">Address:</p>
-                            <p><?php echo htmlspecialchars($row['address']); ?></p>
-                        </div>
-                        
                         <div>
                             <p class="label">Total Price:</p>
                             <p>₹<?php echo number_format($row['product_price'] * htmlspecialchars($row['quantity']), 2); ?></p>

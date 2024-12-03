@@ -1,12 +1,14 @@
 <?php
 session_start();
+
+
 $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 
 if (mysqli_connect_error()) {
     die("Connection error: " . mysqli_connect_error());
 }
 
-$user_id = isset($_COOKIE['login_id']) ? $_COOKIE['login_id'] : null;
+$user_id = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : null;
 $username = '';
 
 if ($user_id) {
@@ -156,7 +158,7 @@ if (isset($user_id)) {
                             <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                                 <li><a class="dropdown-item" href="#">My Profile</a></li>
                                 <li><a class="dropdown-item" href="/E-commerce website/templates/order_history.php?user_id=<?php echo $user_id; ?>">Order History</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                <li><a class="dropdown-item" href="/E-commerce website/templates/logout_e.php">Logout</a></li>
                             </ul>
                         </div>
                     <?php endif; ?>

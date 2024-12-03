@@ -15,7 +15,7 @@ echo "
     </a>
 </div>";
 
-$nameErr = $addressErr = $pincodeErr = $mobileErr = $quantityErr = $paymentMErr = '';
+$nameErr =$emailErr=$addressErr = $pincodeErr = $mobileErr = $quantityErr = $paymentMErr = '';
 $product = null;
 
 // Database connection
@@ -48,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
     // Form input
     $full_name = trim($_POST["full_name"]);
+    $email=trim($_POST["email"]);
     $address = trim($_POST["address"]);
     $pincode = trim($_POST["pincode"]);
     $mobile = trim($_POST["mobile"]);
@@ -59,6 +60,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $nameErr = "Full Name is required.";
         $errors[] = $nameErr;
     }
+    if (empty($email)){
+        $emailErr = "Email is required.";
+        $errors[] = $emailErr;
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $emailErr = "Invalid email format";
+    } 
     if (empty($address)) {
         $addressErr = "Address is required.";
         $errors[] = $addressErr;
@@ -89,13 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     if (empty($errors)) {
         // Insert order into database
         $query = "
-            INSERT INTO order_details (user_id, product_id, product_name, product_price, full_name, address, pincode, mobile_number, quantity, payment_method, image_path)
-            VALUES ('$user_id', '$product_id', '$product_name', '$product_price', '$full_name', '$address', '$pincode', '$mobile', $quantity, '$payment_method', '$image_path')
+            INSERT INTO order_details (user_id, product_id, product_name, product_price, full_name, address, pincode, mobile_number, quantity, payment_method, email,image_path)
+            VALUES ('$user_id', '$product_id', '$product_name', '$product_price', '$full_name', '$address', '$pincode', '$mobile', $quantity, '$payment_method','$email','$image_path')
         ";
         if (mysqli_query($link, $query)) {
-            echo "<p style='color: green; text-align: center;'>Order placed successfully!</p>";
-            
-            // Update the product quantity after placing the order
             $update_query = "UPDATE e_product_details SET quantity = quantity - $quantity WHERE product_id = '$product_id'";
             mysqli_query($link, $update_query);
             
@@ -114,6 +119,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 $update_cart_query = "DELETE FROM cart_details where product_id='$cart_product_id'";
                 mysqli_query($link, $update_cart_query);
             }
+
+            if($payment_method == "COD") {
+                // Collect all the required details
+                $buyerName = $full_name;  
+                $orderDate = date('Y-m-d');  
+                $price = $product_price;  
+                $paymentMethod = $payment_method;  
+                $placedAddress =$address;  
+                $p_quantity = $quantity;  
+                $p_email= $email;
+           
+                $randomDays = rand(3, 9);
+                $deliveryDate = date('Y-m-d', strtotime("+$randomDays days"));
+            
+                // Redirect with query parameters
+                header("Location: /E-commerce website/templates/send_email.php?buyerName=$buyerName&orderDate=$orderDate&price=$price&paymentMethod=$paymentMethod&placedAddress=$placedAddress&quantity=$p_quantity&deliveryDate=$deliveryDate&email='$p_email'");
+                exit();
+            }
+            
             
         } else {
             echo "<p style='color: red; text-align: center;'>Error placing order: " . mysqli_error($link) . "</p>";
@@ -163,31 +187,36 @@ ob_end_flush();
                             <span class="error" style="color:red;"><?php echo $nameErr; ?></span>
                         </div>
                         <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="email" name="email">
+                            <span class="error" style="color:red;"><?php echo $emailErr; ?></span>
+                        </div>
+                        <div class="mb-3">
                             <label for="address" class="form-label">Address</label>
-                            <textarea class="form-control" id="address" name="address" rows="3"><?php echo isset($address) ? $address : ''; ?></textarea>
+                            <textarea class="form-control" id="address" name="address" rows="3"></textarea>
                             <span class="error" style="color:red;"><?php echo $addressErr; ?></span>
                         </div>
                         <div class="mb-3">
                             <label for="pincode" class="form-label">Pincode</label>
-                            <input type="text" class="form-control" id="pincode" name="pincode" value="<?php echo isset($pincode) ? $pincode : ''; ?>">
+                            <input type="text" class="form-control" id="pincode" name="pincode">
                             <span class="error" style="color:red;"><?php echo $pincodeErr; ?></span>
                         </div>
                         <div class="mb-3">
                             <label for="mobile" class="form-label">Mobile Number</label>
-                            <input type="text" class="form-control" id="mobile" name="mobile" value="<?php echo isset($mobile) ? $mobile : ''; ?>">
+                            <input type="text" class="form-control" id="mobile" name="mobile">
                             <span class="error" style="color:red;"><?php echo $mobileErr; ?></span>
                         </div>
                         <div class="mb-3">
                             <label for="quantity" class="form-label">Quantity</label>
-                            <input type="text" class="form-control" id="quantity" name="quantity" value="<?php echo isset($quantity) ? $quantity : ''; ?>">
+                            <input type="text" class="form-control" id="quantity" name="quantity">
                             <span class="error" style="color:red;"><?php echo $quantityErr; ?></span>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Payment Method</label>
                             <div>
-                                <input type="radio" id="cod" name="payment_method" value="COD" <?php echo (isset($payment_method) && $payment_method == 'COD') ? 'checked' : ''; ?>>
+                                <input type="radio" id="cod" name="payment_method" value="COD">
                                 <label for="cod">Cash on Delivery</label><br>
-                                <input type="radio" id="online" name="payment_method" value="Online" <?php echo (isset($payment_method) && $payment_method == 'Online') ? 'checked' : ''; ?>>
+                                <input type="radio" id="online" name="payment_method" value="Online">
                                 <label for="online">Online Payment</label><br>
                             </div>
                             <span class="error" style="color:red;"><?php echo $paymentMErr; ?></span>

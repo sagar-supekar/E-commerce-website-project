@@ -135,7 +135,7 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
 .product-item.out-of-stock::after {
     content: "Out of Stock";
     position: absolute;
-    top: 40%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 24px;

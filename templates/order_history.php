@@ -10,6 +10,8 @@ if (mysqli_connect_error()) {
     die("Connection error: " . mysqli_connect_error());
 } 
 
+$message = isset($_GET['message']) ? $_GET['message'] : "";
+
 // Fetch order details for the logged-in user
 $query = "SELECT * FROM order_details WHERE user_id = '$user_id'";
 $result = mysqli_query($link, $query);
@@ -72,6 +74,7 @@ $result = mysqli_query($link, $query);
 </head>
 <body>
     <div class="container my-5">
+    <div class="text-center" style="color:green;"> <?php echo htmlspecialchars($message); ?></div>
         <h2 class="text-center">Order History</h2>
         <?php if (mysqli_num_rows($result) > 0): ?>
             <?php $count=1; ?>

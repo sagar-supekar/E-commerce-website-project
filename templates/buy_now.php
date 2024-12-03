@@ -104,7 +104,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 $update_query = "UPDATE e_product_details SET quantity = 0 WHERE product_id = '$product_id'";
                 mysqli_query($link, $update_query);
             }
-            //check if given product is available in the cart execute the delete query to remove it 
+            //check if given product is available in the cart execute the delete query to remove it from cart
+            $cart_query="SELECT * FROM cart_details where user_id='$user_id' AND product_id='$product_id'";
+            $cart_result=mysqli_query($link, $cart_query);
+            $cart_row=mysqli_fetch_assoc($cart_result);
+            $cart_product_id= $cart_row["product_id"];
+            if($cart_product_id==$product_id)
+            {
+                $update_cart_query = "DELETE FROM cart_details where product_id='$cart_product_id'";
+                mysqli_query($link, $update_cart_query);
+            }
+            
         } else {
             echo "<p style='color: red; text-align: center;'>Error placing order: " . mysqli_error($link) . "</p>";
         }

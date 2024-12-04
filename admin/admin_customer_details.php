@@ -20,7 +20,20 @@ if (!$result) {
     $row = mysqli_fetch_assoc($result);
     $total_records = $row["total_records"];
 }
+$records_per_page = 6;
+$total_pages = ceil($total_records / $records_per_page);
 
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+
+if ($current_page < 1) {
+    $current_page = 1;
+} elseif ($current_page > $total_pages) {
+    $current_page = $total_pages;
+}
+
+//show 6 record per page 
+$start_from = ($current_page - 1) * $records_per_page;
 ?>
 
 <!DOCTYPE html>
@@ -73,14 +86,14 @@ if (!$result) {
             $query = "
                 SELECT o.*, e.email 
                 FROM order_details o
-                LEFT JOIN e_login_table e ON o.user_id = e.id
+                LEFT JOIN e_login_table e ON o.user_id = e.id LIMIT $start_from, $records_per_page
             ";
             $result = mysqli_query($link, $query);
             if (!$result) {
                 die("Query failed: " . mysqli_error($link));
             }
-            $count = 1;
-            
+           // $count = isset($_GET['page']) ? ($_GET['page']+6)-1: 1;
+           $count = isset($_GET['page']) ? (($_GET['page'] - 1) * 6) + 1 : 1;
             while ($row = mysqli_fetch_array($result)) {
                 ?>
                 <tr>
@@ -106,7 +119,28 @@ if (!$result) {
     </table>
 </div>
 
+<div class="pagination-container text-center mb-5 d-flex justify-content-center">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <!-- Previous button -->
+            <li class="page-item <?php echo ($current_page <= 1) ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo ($current_page - 1); ?>" aria-label="Previous">Previous</a>
+            </li>
 
+            <!-- Page Numbers -->
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <li class="page-item <?php echo ($i == $current_page) ? 'active' : ''; ?>">
+                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                </li>
+            <?php endfor; ?>
+
+            <!-- Next button -->
+            <li class="page-item <?php echo ($current_page >= $total_pages) ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo ($current_page + 1); ?>" aria-label="Next">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 

@@ -1,5 +1,10 @@
 <?php
 ob_start();
+if(!isset($_COOKIE['login_id']))
+{
+    header("Location:welcome.php");
+    exit();
+}
 include("/home/web/public_html/E-commerce website/includes/header.php");
 include("/home/web/public_html/E-commerce website/includes/second_header.php");
 

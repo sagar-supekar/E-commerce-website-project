@@ -1,18 +1,13 @@
 <?php
-// Start the session
 session_start();
-
-// Destroy all session variables
 session_unset();
 session_destroy();
 
-// Clear the 'login_id' cookie
 if (isset($_COOKIE['login_id'])) {
-    setcookie('login_id', '', time() - 3600, '/'); // Expire the cookie
-    unset($_COOKIE['login_id']); // Unset the variable in this request
+    setcookie('login_id', '', time() - 3600); // Expire the cookie
+    unset($_COOKIE['login_id']); 
 }
 
-//Debug messages (only for testing; remove in production)
 if (!isset($_SESSION['login_id'])) {
     echo "Session variable 'login_id' is destroyed.<br>";
 } else {

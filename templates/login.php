@@ -2,6 +2,12 @@
 ob_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+//$login_id = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : null;
+if(isset($_COOKIE['login_id']))
+{
+    header("Location:welcome.php");
+    exit();
+}
 
 include("/home/web/public_html/E-commerce website/includes/header.php");
 include("/home/web/public_html/E-commerce website/includes/second_header.php");

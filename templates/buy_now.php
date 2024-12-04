@@ -2,7 +2,11 @@
 ob_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
+if(!isset($_COOKIE['login_id']))
+{
+    header("Location:welcome.php");
+    exit();
+}
 // Include headers
 include("/home/web/public_html/E-commerce website/includes/header.php");
 include("/home/web/public_html/E-commerce website/includes/second_header.php");
@@ -43,7 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $product_name = htmlspecialchars($row['product_name']);
         $product_price = htmlspecialchars($row['price']);
         $image_path = htmlspecialchars($row['image_path']);
-        $current_quantity = $row['quantity']; // Get the current stock quantity
+        $current_quantity = $row['quantity']; 
+        $encoded_product_name = urlencode($product_name);
     }
 
     // Form input
@@ -129,13 +134,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 $placedAddress =$address;  
                 $p_quantity = $quantity;  
                 $p_email= $email;
-           
                 $randomDays = rand(3, 9);
                 $deliveryDate = date('Y-m-d', strtotime("+$randomDays days"));
-            
+                $product_id = mysqli_real_escape_string($link, $_GET["product_id"]);
+
+                
+                $url = "/E-commerce website/templates/send_email.php?buyerName=$buyerName&orderDate=$orderDate&price=$price&paymentMethod=$paymentMethod&placedAddress=$placedAddress&quantity=$p_quantity&deliveryDate=$deliveryDate&email=$p_email&product_name=$encoded_product_name";
                 // Redirect with query parameters
-                header("Location: /E-commerce website/templates/send_email.php?buyerName=$buyerName&orderDate=$orderDate&price=$price&paymentMethod=$paymentMethod&placedAddress=$placedAddress&quantity=$p_quantity&deliveryDate=$deliveryDate&email='$p_email'");
+                header("Location: $url");
                 exit();
+                
+            }
+            else{
+                // code for if payment method is online show the payment gateway and send the mail
             }
             
             

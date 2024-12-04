@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <!-- Bootstrap 5 CDN (same version as in footer) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -102,12 +103,15 @@
    
     <div class="container-fluid">
         <div class="d-flex admin-container">
+        <a href="/E-commerce website/templates/welcome.php" class="btn btn-primary btn-sm"><i class="fas fa-home"></i> Home</a>
             <h1 class="admin-heading">Admin Panel</h1>
             <a href="e_logout.php" class="btn btn-secondary btn-sm"> <i class="fas fa-sign-out-alt"></i> Log out</a>
         </div>
+
+        
     </div>
 
-  
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

@@ -197,7 +197,7 @@ if ($result) {
         $image_path = htmlspecialchars($row['image_path']);
         $category = htmlspecialchars($row['category']);
         $quantity = $row['quantity'];
-        $login_id = isset($_COOKIE['login_id']) ? $_COOKIE['login_id'] : null;
+        $login_id = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : null;
         $product_id = $row['product_id'];
 
         if ($quantity == 0) {

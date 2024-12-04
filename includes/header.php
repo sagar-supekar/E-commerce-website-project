@@ -104,6 +104,24 @@ if (isset($user_id)) {
             opacity: 1;
             z-index: 1050px;
         }
+        .cd {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .nd{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 350px;
+            position:relative;
+            top:20px;
+            gap:30px;
+        }
+        #c-button{
+        cursor: pointer;
+       }
     </style>
 </head>
 
@@ -116,10 +134,43 @@ if (isset($user_id)) {
             <a class="navbar-brand" href="/E-commerce website/templates/welcome.php">EzyBuy</a>
             <a class="navbar-brand" href="/E-commerce website/templates/welcome.php"><i class="bi bi-house me-1"></i></a>
             
-            <form class="d-flex ms-auto justify-content-center">
-                <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button> -->
-            </form>
+            <div class="d-flex  justify-content-center">
+                <ul class="nd cd">
+                        <!-- Mobile Dropdown -->
+                        <li class="nav-item dropdown">
+                            <p class="nav-link dropdown" id="c-button">
+                                Mobile
+                            </p>
+                            <ul class="dropdown-menu" aria-labelledby="mobileDropdown">
+                                <li><a class="dropdown-item" href="/E-commerce website/templates/category/keypad.php">Keypad</a></li>
+                                <li><a class="dropdown-item" href="/E-commerce website/templates/category/touchpad.php">Touch Pad</a></li>
+                            </ul>
+                        </li>
+                        
+                        <!-- Electronics Dropdown -->
+                        <li class="nav-item dropdown">
+                            <p class="nav-link  "id="c-button">
+                                Electronics
+                            </p>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/E-commerce website/templates/category/laptop.php">Laptop</a></li>
+                                <li><a class="dropdown-item" href="/E-commerce website/templates/category/smartwatches.php">Smart Watches</a></li>
+                                <li><a class="dropdown-item" href="/E-commerce website/templates/category/earbud.php">Earbuds</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Appliances Dropdown -->
+                        <li class="nav-item dropdown">
+                            <p class="nav-link "id="c-button">
+                                Appliances
+                            </p>
+                            <ul class="dropdown-menu" aria-labelledby="appliancesDropdown">
+                                <li><a class="dropdown-item" href="/E-commerce website/templates/category/washing_machine.php">Washing Machine</a></li>
+                                <li><a class="dropdown-item" href="/E-commerce website/templates/category/refregirator.php">Refrigerator</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+            </div>
 
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

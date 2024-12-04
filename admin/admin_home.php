@@ -1,9 +1,9 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-  // If not logged in, redirect to sign-in page
-  header("Location: /E-commerce website/templates/welcome.php");
-  exit();
+    // If not logged in, redirect to sign-in page
+    header("Location: /E-commerce website/templates/welcome.php");
+    exit();
 }
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -24,6 +24,27 @@ if (!$result) {
     $row = mysqli_fetch_assoc($result);
     $total_records = $row["total_records"];
 }
+
+$records_per_page = 6;
+$total_pages = ceil($total_records / $records_per_page);
+
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+
+if ($current_page < 1) {
+    $current_page = 1;
+} elseif ($current_page > $total_pages) {
+    $current_page = $total_pages;
+}
+
+//show 6 record per page 
+$start_from = ($current_page - 1) * $records_per_page;
+
+$query = "SELECT * FROM e_product_details LIMIT $start_from, $records_per_page";
+$result = mysqli_query($link, $query);
+if (!$result) {
+    die("Query failed: " . mysqli_error($link));
+}
 ?>
 
 <!DOCTYPE html>
@@ -41,11 +62,17 @@ if (!$result) {
 </head>
 <body>
 
-<div class="navbar">
-    <h2 class="text mx-3">All Records <?php echo $total_records; ?></h2>
-    <a href="admin_customer_details.php" class="btn btn-warning mx-3">Customer Details</a>
-    <a href="add_product.php" class="btn btn-success mx-3">Add New Item</a>
+<div class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <h2 class="text mx-3 mb-0">All Records <?php echo $total_records; ?></h2>
+        <div class="d-flex ms-auto">
+             <!-- <a href="admin_customer_details.php" class="btn btn-warning mx-2">All Registered Users</a> -->
+            <a href="admin_customer_details.php" class="btn btn-warning mx-2">Customer Details</a>
+            <a href="add_product.php" class="btn btn-success mx-2">Add New Item</a>
+        </div>
+    </div>
 </div>
+
 
 <!-- Table -->
 <div class="table-responsive mb-5 mx-3">
@@ -64,21 +91,15 @@ if (!$result) {
         </thead>
         <tbody>
             <?php
-            $query = "SELECT * FROM e_product_details";
-            $result = mysqli_query($link, $query);
-            if (!$result) {
-                die("Query failed: " . mysqli_error($link));
-            }
             $count = 1;
             while ($row = mysqli_fetch_array($result)) {
                 $image_url = $row['image_path'];
                 ?>
                 <tr>
-                   
                     <td><?php echo $row['product_id']; ?></td>
                     <td><?php echo $row['product_name']; ?></td>
                     <td><?php echo $row['quantity']; ?></td>
-                    <td><?php echo "₹. ".$row['price']; ?></td>
+                    <td><?php echo "₹ ".$row['price']; ?></td>
                     
                     <!-- Displaying the Image -->
                     <td>
@@ -91,7 +112,6 @@ if (!$result) {
 
                     <td><a href="admin_update.php?product_id=<?php echo urlencode($row['product_id']); ?>" class="btn btn-success">Update</a></td>
                     <td><a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?php echo $row['product_id']; ?>">Delete</a></td>
-                    
                     <td><a href="admin_view.php?product_id=<?php echo urlencode($row['product_id']); ?>" class="btn btn-primary">View</a></td>
                 </tr>
             <?php
@@ -99,6 +119,29 @@ if (!$result) {
             ?>
         </tbody>
     </table>
+</div>
+
+<div class="pagination-container text-center mb-5 d-flex justify-content-center">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <!-- Previous button -->
+            <li class="page-item <?php echo ($current_page <= 1) ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo ($current_page - 1); ?>" aria-label="Previous">Previous</a>
+            </li>
+
+            <!-- Page Numbers -->
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <li class="page-item <?php echo ($i == $current_page) ? 'active' : ''; ?>">
+                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                </li>
+            <?php endfor; ?>
+
+            <!-- Next button -->
+            <li class="page-item <?php echo ($current_page >= $total_pages) ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo ($current_page + 1); ?>" aria-label="Next">Next</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <!-- Modal for Delete -->
@@ -127,13 +170,13 @@ if (!$result) {
 <script>
 // Handle Delete Button Click in Modal
 $('#deleteModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget); // Button that triggered the modal
-    var productId = button.data('id'); // Extract product ID from the button data-id attribute
+    var button = $(event.relatedTarget); 
+    var productId = button.data('id'); 
     
-    var deleteUrl = 'admin_delete.php?id=' + productId; // Construct the delete URL
+    var deleteUrl = 'admin_delete.php?id=' + productId;
     
     var modal = $(this);
-    modal.find('#deleteRecordLink').attr('href', deleteUrl); // Set the href of the delete link
+    modal.find('#deleteRecordLink').attr('href', deleteUrl); 
 });
 </script>
 

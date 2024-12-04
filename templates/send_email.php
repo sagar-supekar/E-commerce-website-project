@@ -12,7 +12,6 @@ require '../phpmailerfiles/Exception.php';
 require '../phpmailerfiles/PHPMailer.php';
 require '../phpmailerfiles/SMTP.php';
 
-
 // Create an instance; passing `true` enables exceptions
 $mail = new PHPMailer(true);
 
@@ -26,6 +25,8 @@ try {
     $quantity = $_GET['quantity'];
     $deliveryDate = $_GET['deliveryDate'];
     $email= $_GET['email'];
+    $product_name = isset($_GET['product_name']) ? $_GET['product_name'] : 'Unknown Product';
+    $url= $_GET['url'];
     // Server settings
     $mail->isSMTP();                                            // Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                         // Set the SMTP server to send through
@@ -37,7 +38,7 @@ try {
 
     // Recipients
     $mail->setFrom('sagarsupekar8857@gmail.com', 'Sagar');
-    $mail->addAddress('sagarsupekar8857@gmail.com', 'Sagar Supekar');     // Add a recipient
+    $mail->addAddress($email, 'Sagar Supekar');     // Add a recipient
 
     // Content
     $mail->isHTML(true);                                  // Set email format to HTML
@@ -47,6 +48,12 @@ try {
     $mail->Body = "<html>
 <head>
     <style>
+        .header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -62,57 +69,37 @@ try {
         th {
             background-color: #f2f2f2;
         }
-        .header {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
     <div class='header'>EzyBuy - Empowering Innovation</div>
     <p>Dear $buyerName,</p>
     <p>Thank you for your order!</p>
-    <p>We are pleased to confirm the details of your recent order:</p>
+    <p>Here is your recent order details:</p>
+    
     <table>
         <tr>
-            <th>Detail</th>
-            <th>Information</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
         </tr>
         <tr>
-            <td><strong>Order Date:</strong></td>
-            <td>$orderDate</td>
-        </tr>
-        <tr>
-            <td><strong>Estimated Delivery Date:</strong></td>
-            <td>$deliveryDate</td>
-        </tr>
-        <tr>
-            <td><strong>Price:</strong></td>
-            <td>$price</td>
-        </tr>
-        <tr>
-            <td><strong>Payment Method:</strong></td>
-            <td>$paymentMethod</td>
-        </tr>
-        <tr>
-            <td><strong>Shipping Address:</strong></td>
-            <td>$placedAddress</td>
-        </tr>
-        <tr>
-            <td><strong>Quantity:</strong></td>
+            <td>$product_name</td>
             <td>$quantity</td>
+            <td>" . ($price * $quantity) . "</td>
         </tr>
     </table>
-    <p>We will notify you once your order is shipped. If you have any questions, feel free to contact us.</p>
+    <br>
+    <p>Your order will be delivered on <strong>$deliveryDate</strong>.</p>
+    <br>
+    <p>Thanks & Regards</p>
     <p>EzyBuy - Empowering Innovation</p>
 </body>
 </html>
 ";
 
     $mail->send();
-    header("Location: /E-commerce website/templates/order_history.php?message=Order placed successfully");
+    header("Location: /E-commerce website/templates/order_history.php?message=Order placed successfully&url=$url");
     exit;
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";

@@ -1,4 +1,9 @@
 <?php
+if(!isset($_COOKIE['login_id']))
+{
+    header("Location:welcome.php");
+    exit();
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle AJAX request to update quantity and price
     header('Content-Type: application/json');

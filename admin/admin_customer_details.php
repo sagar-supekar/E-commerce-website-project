@@ -61,7 +61,7 @@ $start_from = ($current_page - 1) * $records_per_page;
     <h2 class="text mx-3">Order Records <?php echo $total_records; ?></h2>
 </div>
 
-<!-- Table -->
+
 <div class="table-responsive mb-5 mx-3">
     <table class="table table-bordered table-striped table-white">
         <thead class="thead-dark">

@@ -126,7 +126,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             }
 
             if($payment_method == "COD") {
-                // Collect all the required details
                 $buyerName = $full_name;  
                 $orderDate = date('Y-m-d');  
                 $price = $product_price;  
@@ -140,7 +139,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
                 
                 $url = "/E-commerce website/templates/send_email.php?buyerName=$buyerName&orderDate=$orderDate&price=$price&paymentMethod=$paymentMethod&placedAddress=$placedAddress&quantity=$p_quantity&deliveryDate=$deliveryDate&email=$p_email&product_name=$encoded_product_name";
-                // Redirect with query parameters
                 header("Location: $url");
                 exit();
                 

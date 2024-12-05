@@ -17,15 +17,8 @@ $mail = new PHPMailer(true);
 
 try {
     // Capture the data from the URL query parameters
-    $buyerName = $_GET['buyerName'];
-    $orderDate = $_GET['orderDate'];
-    $price = $_GET['price'];
-    $paymentMethod = $_GET['paymentMethod'];
-    $placedAddress = $_GET['placedAddress'];
-    $quantity = $_GET['quantity'];
-    $deliveryDate = $_GET['deliveryDate'];
+    $buyerName = $_GET['name'];
     $email= $_GET['email'];
-    $product_name = isset($_GET['product_name']) ? $_GET['product_name'] : 'Unknown Product';
     $url= $_GET['url'];
     // Server settings
     $mail->isSMTP();                                            // Send using SMTP
@@ -42,13 +35,13 @@ try {
 
     // Content
     $mail->isHTML(true);                                  // Set email format to HTML
-    $mail->Subject = 'Order Confirmation - Your Order Details';
+    $mail->Subject = 'Thank You for Registering with EzyBuy!';
     
     // HTML Body content
     $mail->Body = "<html>
 <head>
     <style>
-         .header {
+        .header {
             text-align: center;
             font-size: 24px;
             font-weight: bold;
@@ -59,52 +52,30 @@ try {
             color:white;
             background-color:#363d69;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid #000;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
+        .sec-header{
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+             margin-top: 20px;
+            margin-bottom: 20px;
+            }
     </style>
 </head>
 <body>
-    <div class='header'>EzyBuy - Empowering Innovation</div>
-    <p>Dear $buyerName,</p>
-    <p>Thank you for your order!</p>
-    <p>Here is your recent order details:</p>
-    
-    <table>
-        <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-        </tr>
-        <tr>
-            <td>$product_name</td>
-            <td>$quantity</td>
-            <td>" . ($price * $quantity) . "</td>
-        </tr>
-    </table>
-    <br>
-    <p>Your order will be delivered on <strong>$deliveryDate</strong>.</p>
-    <br>
-    <p>Thanks & Regards</p>
-    <p>EzyBuy - Empowering Innovation</p>
+      <div class='header'>EzyBuy - Empowering Innovation</div>
+      <p>Dear $buyerName,</p>
+      <p class='sec-header'>Thanks for Registering with EzyBuy</p>
+      <p> We are excited to have you on board</p>
+      <p>You can now explore our platform and enjoy a seamless shopping experience. </p>
+      <br>
+      <p>Thanks & Regards</p>
+      <p>EzyBuy - Empowering Innovation</p>
 </body>
 </html>
 ";
 
     $mail->send();
-    header("Location: /E-commerce website/templates/order_history.php?message=Order placed successfully&url=$url");
+    header("Location: /E-commerce website/templates/login.php?message=Register mail send successfully&url=$url");
     exit;
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";

@@ -88,6 +88,6 @@ if (!$result) {
 </html>
 
 <?php
-// Close the database connection
+
 mysqli_close($link);
 ?>

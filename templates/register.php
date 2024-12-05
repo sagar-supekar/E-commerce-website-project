@@ -3,7 +3,11 @@
 ob_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
+if(isset($_COOKIE['login_id']))
+{
+    header("Location:welcome.php");
+    exit();
+}
 include("/home/web/public_html/E-commerce website/includes/header.php");
 include("/home/web/public_html/E-commerce website/includes/second_header.php");
 
@@ -21,7 +25,7 @@ function test_input($data)
 }
 
 $name = $email = $password = '';
-$nameErr = $emailErr = $passErr = '';
+$nameErr = $emailErr = $passErr =$confpassErr= '';
 $signal = true;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -70,6 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $signal = false;
         }
     }
+    if(($_POST["password"])!=($_POST["confirm-password"]))
+    {
+        $confpassErr = "Password should match";
+        $signal = false;
+    }
 
     if ($signal) {
         $full_name = mysqli_real_escape_string($link, $_POST['full-name']);
@@ -90,7 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $register_id = $register_id_query['id'];
             $_SESSION['register_id'] = $register_id;
             setcookie('register_id', $register_id, time() + 24 * 60 * 60 * 365);
-            header("Location:login.php");
+            header("Location: register_success_mail.php?email=" . urlencode($email)."&name=".urlencode($full_name));
+            exit();
         }
     }
 }
@@ -105,7 +115,7 @@ ob_end_flush();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Form</title>
     <style>
-        /* General styling for the registration form */
+      
         .registration-page {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 14px;
@@ -123,7 +133,7 @@ ob_end_flush();
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
             width: 400px;
-            height: 450px;
+            height: 490px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -133,7 +143,7 @@ ob_end_flush();
             font-size: 1.8rem;
             font-weight: bold;
             margin-bottom: 30px;
-            margin-top: 50px;
+            
             color: #007BFF;
         }
 
@@ -218,6 +228,10 @@ ob_end_flush();
                 <div>
                     <input type="password" id="password" placeholder="Password" name="password" class="input-field">
                     <div id="passwordError" class="error"><?php echo $passErr; ?></div>
+                </div>
+                <div>
+                    <input type="password" id="password" placeholder="Confirm Password" name="confirm-password" class="input-field">
+                    <div id="passwordError" class="error"><?php echo $confpassErr; ?></div>
                 </div>
                 <button type="submit">Register</button>
                 <div id="successMessage" class="success"></div>

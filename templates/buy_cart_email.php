@@ -17,16 +17,52 @@ $mail = new PHPMailer(true);
 
 try {
     // Capture the data from the URL query parameters
-    $buyerName = $_GET['buyerName'];
-    $orderDate = $_GET['orderDate'];
-    $price = $_GET['price'];
-    $paymentMethod = $_GET['paymentMethod'];
-    $placedAddress = $_GET['placedAddress'];
-    $quantity = $_GET['quantity'];
-    $deliveryDate = $_GET['deliveryDate'];
-    $email= $_GET['email'];
-    $product_name = isset($_GET['product_name']) ? $_GET['product_name'] : 'Unknown Product';
-    $url= $_GET['url'];
+    $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
+    if (!$link) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    
+    $user_id = $_GET['user_id'];
+    $email = $_GET['email'];
+    $quantity= $_GET['quantity'];
+    $name=$_GET['name'];
+    // Query to fetch all order details for the given user
+    $query = "SELECT * FROM cart_details WHERE user_id='$user_id'";
+    $result = mysqli_query($link, $query);
+
+    // Fetch product name, quantity, and price for each product
+    $product_name = [];
+    $product_price = [];
+    $product_qty = [];
+    $total_price = 0;
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $product_name[] = $row["product_name"];
+            $product_price[] = $row["price"];
+            $product_qty[] = $row["quantity"];
+            $product_id= $row["product_id"];
+           // print_r($row);
+           //update qunatity in quantity table
+            $update_quantity_query = "UPDATE e_product_details SET quantity = quantity - $quantity WHERE product_id = '$product_id'";
+            mysqli_query($link, $update_quantity_query);
+
+            //delete the cart tems from cart
+            $delete_cart_query = "DELETE FROM cart_details WHERE user_id='$user_id' AND product_id='$product_id'";
+            mysqli_query($link, $delete_cart_query);
+        }
+    }
+
+    // Calculate the total price for all products
+    $total_price = 0;
+    for ($i = 0; $i < count($product_name); $i++) {
+        $total_price += $product_price[$i] * $product_qty[$i];
+    }
+
+    //random date
+    $random_days = rand(3, 9);
+    $deliveryDate = date('Y-m-d', strtotime("+$random_days days"));
+
     // Server settings
     $mail->isSMTP();                                            // Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                         // Set the SMTP server to send through
@@ -45,19 +81,30 @@ try {
     $mail->Subject = 'Order Confirmation - Your Order Details';
     
     // HTML Body content
+    $table_rows = "";
+    for ($i = 0; $i < count($product_name); $i++) {
+        $table_rows .= "
+            <tr>
+                <td>{$product_name[$i]}</td>
+                <td>{$product_qty[$i]}</td>
+                <td> ".number_format(($product_price[$i] * $product_qty[$i]),2). "</td>
+            </tr>
+        ";
+    }
+
     $mail->Body = "<html>
 <head>
     <style>
-         .header {
+        .header {
             text-align: center;
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
             padding-top: 6px;
-            width:100%;
+            width: 100%;
             height: 50px;
-            color:white;
-            background-color:#363d69;
+            color: white;
+            background-color: #363d69;
         }
         table {
             width: 100%;
@@ -78,9 +125,9 @@ try {
 </head>
 <body>
     <div class='header'>EzyBuy - Empowering Innovation</div>
-    <p>Dear $buyerName,</p>
+    <p>Dear $name,</p>
     <p>Thank you for your order!</p>
-    <p>Here is your recent order details:</p>
+    <p>Here are the details of your recent order:</p>
     
     <table>
         <tr>
@@ -88,10 +135,10 @@ try {
             <th>Quantity</th>
             <th>Total Price</th>
         </tr>
+        $table_rows
         <tr>
-            <td>$product_name</td>
-            <td>$quantity</td>
-            <td>" . ($price * $quantity) . "</td>
+            <th colspan='2'>Total Price</th>
+            <td><strong>$total_price</strong></td>
         </tr>
     </table>
     <br>
@@ -100,11 +147,11 @@ try {
     <p>Thanks & Regards</p>
     <p>EzyBuy - Empowering Innovation</p>
 </body>
-</html>
-";
-
+</html>";
+                    //update the quantity count 
+                   
     $mail->send();
-    header("Location: /E-commerce website/templates/order_history.php?message=Order placed successfully&url=$url");
+    header("Location: /E-commerce website/templates/order_history.php?message=Order placed successfully");
     exit;
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";

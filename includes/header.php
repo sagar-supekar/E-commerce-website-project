@@ -97,7 +97,6 @@ if (isset($user_id)) {
             z-index: 1050px;
         }
 
-        /* Show the dropdown on hover */
         .dropdown:hover .dropdown-menu {
             display: block;
             visibility: visible;
@@ -127,7 +126,7 @@ if (isset($user_id)) {
 
 <body>
 
-    <!-- Navbar -->
+   
     <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-dark">
         <div class="container-fluid">
 

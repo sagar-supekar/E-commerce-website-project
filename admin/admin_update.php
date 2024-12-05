@@ -27,13 +27,12 @@ if ($product_id) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get POST data
     $product_name = $_POST['product_name'];
     $product_price = $_POST['price'];
     $product_description = $_POST['description'];
     $category = $_POST['category'];
     $quantity = $_POST['quantity'];
-    $image_path = $product['image_path']; // Keep the current image by default
+    $image_path = $product['image_path']; 
 
     // Handle the image upload if a new image is provided
     if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] == 0) {
@@ -47,9 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $image_type = mime_content_type($image_tmp);
 
         if (in_array($image_type, $valid_image_types)) {
-            // Move uploaded file to the desired directory
+            
             if (move_uploaded_file($image_tmp, $image_path)) {
-                // If new image uploaded, delete the old one (optional)
+                
                 if (file_exists($product['image_path']) && $product['image_path'] != $image_path) {
                     unlink($product['image_path']);
                 }

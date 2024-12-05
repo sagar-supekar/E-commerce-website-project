@@ -24,18 +24,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $upload_dir = 'uploads/';
         $image_path = $upload_dir . basename($image_name);
 
-        // Validate file type (optional)
+    
         $valid_image_types = ['image/jpeg', 'image/png', 'image/gif'];
         $image_type = mime_content_type($image_tmp);
 
         if (in_array($image_type, $valid_image_types)) {
-            // Move uploaded file to the desired directory
+            
             if (move_uploaded_file($image_tmp, $image_path)) {
-                // Prepare the SQL query
                 $query = "INSERT INTO e_product_details (product_name, category, price, description, image_path,quantity) 
                           VALUES ('$product_name', '$category', '$product_price', '$product_description', '$image_path','$quantity')";
                           
-                // Execute the query
+               
                 $result = mysqli_query($link, $query);
                 
                 if ($result) {

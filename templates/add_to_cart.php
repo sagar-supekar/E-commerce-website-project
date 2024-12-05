@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Standard page rendering
+
 include("/home/web/public_html/E-commerce website/includes/header.php");
 include("/home/web/public_html/E-commerce website/includes/second_header.php");
 
@@ -154,7 +154,7 @@ function generateQuantityOptions() {
         const productId = "<?php echo $product_id; ?>";
         const userId = "<?php echo $user_id; ?>";
 
-        // Event listener for quantity change
+     
         quantityDropdown.addEventListener("change", function () {
             const selectedQuantity = this.value;
 

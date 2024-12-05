@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start the session for user login check
+session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 include('admin_header.php');
@@ -11,11 +11,11 @@ if (!$link) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Get the product_id from the URL
+
 if (isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
 
-    // Query to get product details
+    
     $query = "SELECT * FROM e_product_details WHERE product_id = '$product_id'";
     $result = mysqli_query($link, $query);
 
@@ -28,9 +28,9 @@ if (isset($_GET['product_id'])) {
     $product_name = $row['product_name'];
     $quantity = $row['quantity'];
     $price = $row['price'];
-    $description = $row['description']; // Assuming you have a description field
-    $category = $row['category']; // Assuming you have a category field
-    $image_url = $row['image_path']; // Assuming you have an image_url or image_path column in the database
+    $description = $row['description']; 
+    $category = $row['category']; 
+    $image_url = $row['image_path']; 
 } else {
     die("Product ID is missing.");
 }
@@ -82,6 +82,5 @@ if (isset($_GET['product_id'])) {
 </html>
 
 <?php
-// Close database connection
 mysqli_close($link);
 ?>

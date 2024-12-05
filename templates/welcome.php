@@ -17,20 +17,20 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
     }
 
     .product-item {
-        width: 32%; /* Each product takes up one-third of the row */
+        width: 32%; 
         display: flex;
         align-items: center;
         background-color: #f9f9f9;
         padding: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         border-radius: 8px;
-        margin-bottom: 20px; /* Adds space between each product */
+        margin-bottom: 20px;
         position: relative;
     }
 
     .product-image {
-        width: 150px; /* Adjusted width */
-        height: 150px; /* Adjusted height */
+        width: 150px; 
+        height: 150px; 
         object-fit: cover;
         border-radius: 8px;
         margin-right: 20px;
@@ -130,7 +130,7 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
     /* background-color: #d3d3d3;  */
     color: #7f7f7f;
 }
-/* Product image watermark for out-of-stock items */
+
 
 .product-item.out-of-stock::after {
     content: "Out of Stock";

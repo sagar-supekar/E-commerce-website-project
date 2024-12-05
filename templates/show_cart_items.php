@@ -129,15 +129,19 @@ function generateQuantityOptions($selectedQuantity) {
     }
     return $options;
 }
+//$product_ids_str = implode(',', $product_ids);
 //echo"<a href='/E-commerce website/templates/buy_now.php?user_id=" . urlencode($user_id) . "&product_id=" . urlencode($product_id) . "' class=d-flex justify-content-end'>Buy Now</a>";
 echo "<div style='display: flex; justify-content: center; align-items: center;'>
-        <a href='/E-commerce website/templates/buy_now.php?user_id=" . urlencode($user_id) . "&product_id=" . urlencode($product_id) . "' 
+        <a href='/E-commerce website/templates/buy_cart_items.php?user_id=" . urlencode($user_id) ."' 
         style='padding: 10px; background-color: gray; color: white; text-align: center; text-decoration: none; 
         border: 2px solid #e0a800; border-radius: 5px; font-size: 16px; font-weight: bold; '>
         Check Out</a>
       </div>";
-      
 ?>
+
+
+
+
 
 
 

@@ -13,12 +13,10 @@ if ($user_id) {
     $result = mysqli_query($link, $query);
     if ($result) {
         $row = mysqli_fetch_assoc($result);
-        echo $row['cart_count']; // Return only the cart count
+        echo $row['cart_count']; 
     } else {
         echo 0; // Default to 0 if query fails
     }
-} else {
-    echo 0; // Default to 0 if no user is logged in
 }
 
 mysqli_close($link);

@@ -104,7 +104,7 @@ try {
 ";
 
     $mail->send();
-    header("Location: /E-commerce website/templates/order_history.php?message=Order placed successfully&url=$url");
+    header("Location: /E-commerce website/templates/order_history.php?message=Order placed successfully");
     exit;
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";

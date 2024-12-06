@@ -3,8 +3,7 @@
 ob_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-if(isset($_COOKIE['login_id']))
-{
+if (isset($_COOKIE['login_id'])) {
     header("Location:welcome.php");
     exit();
 }
@@ -25,7 +24,7 @@ function test_input($data)
 }
 
 $name = $email = $password = '';
-$nameErr = $emailErr = $passErr =$confpassErr= '';
+$nameErr = $emailErr = $passErr = $confpassErr = '';
 $signal = true;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -74,8 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $signal = false;
         }
     }
-    if(($_POST["password"])!=($_POST["confirm-password"]))
-    {
+    if (($_POST["password"]) != ($_POST["confirm-password"])) {
         $confpassErr = "Password should match";
         $signal = false;
     }
@@ -99,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $register_id = $register_id_query['id'];
             $_SESSION['register_id'] = $register_id;
             setcookie('register_id', $register_id, time() + 24 * 60 * 60 * 365);
-            header("Location: register_success_mail.php?email=" . urlencode($email)."&name=".urlencode($full_name));
+            header("Location: register_success_mail.php?email=" . urlencode($email) . "&name=" . urlencode($full_name));
             exit();
         }
     }
@@ -115,7 +113,6 @@ ob_end_flush();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Form</title>
     <style>
-      
         .registration-page {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 14px;
@@ -124,7 +121,7 @@ ob_end_flush();
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh; 
+            height: 100vh;
         }
 
         .registration-container {
@@ -133,7 +130,7 @@ ob_end_flush();
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
             width: 400px;
-            height: 490px;
+            height: 530px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -143,7 +140,7 @@ ob_end_flush();
             font-size: 1.8rem;
             font-weight: bold;
             margin-bottom: 30px;
-            
+
             color: #007BFF;
         }
 
@@ -218,11 +215,13 @@ ob_end_flush();
             <form id="registerForm" method="POST">
                 <h2 class="form-header d-flex justify-content-content">Register</h2>
                 <div>
-                    <input type="text" id="name" placeholder="Full Name" name="full-name" class="input-field">
+                    <input type="text" id="name" placeholder="Full Name" name="full-name" class="input-field"
+                        value="<?php echo isset($_POST['full-name']) ? htmlspecialchars($_POST['full-name']) : ''; ?>">
                     <div id="nameError" class="error"><?php echo $nameErr; ?></div>
                 </div>
                 <div>
-                    <input type="email" id="email" class="input-field" placeholder="Email" name="email">
+                    <input type="email" id="email" class="input-field" placeholder="Email" name="email"
+                        value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
                     <div id="emailError" class="error"><?php echo $emailErr; ?></div>
                 </div>
                 <div>

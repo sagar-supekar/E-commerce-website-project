@@ -17,7 +17,8 @@ if (!$link) {
 // Retrieve the address from the database using add_id
 $user_id = $_COOKIE['login_id'];
 $add_id = $_SESSION['add_id'];
-
+$user_id_n=$_GET['user_id'];
+$product_id_n= $_GET['product_id'];
 $query = "SELECT * FROM address WHERE user_id = '$user_id' AND add_id = '$add_id'";
 $result = mysqli_query($link, $query);
 if ($result && mysqli_num_rows($result) > 0) {
@@ -52,12 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // If no errors, update address in database
     if (empty($errors)) {
-        $update_query = "UPDATE addresse SET name = '$full_name', email = '$email', 
+        $update_query = "UPDATE address SET name = '$full_name', email = '$email', 
                          address = '$address_text', pincode = '$pincode', mobile_no = '$mobile_number' 
-                         WHERE id = '$add_id' AND user_id = '$user_id'";
+                         WHERE add_id = '$add_id' AND user_id = '$user_id'";
 
         if (mysqli_query($link, $update_query)) {
-            header('Location: show_address.php');
+            header("Location: buy_now.php?user_id=$user_id_n&product_id=$product_id_n");
             exit();
         } else {
             $errors[] = 'Error updating address. Please try again.';

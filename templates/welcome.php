@@ -89,7 +89,7 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
         content: "";
         display: block;
         width: 100%;
-        height: 1px;
+        height: 0px;
         background-color: #ddd;
         margin-top: 20px;
     }
@@ -150,7 +150,7 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
 }
 .product-actions.disabled {
     opacity: 0.6;
-    pointer-events: none; /* Disable buttons */
+    pointer-events: none; 
 }
 
 .product-image.out-of-stock {
@@ -169,6 +169,12 @@ $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 if (!$link) {
     die("Connection failed: " . mysqli_connect_error());
 }
+$cart_message="";
+if(isset($_GET["cart_message"])&&isset($_GET["product_id"]))
+{
+  $cart_id=$_GET['cart_id'];
+  $cart_message=$_GET['cart_message'];
+}
 
 $results_per_page = 6;
 $query = "SELECT * FROM e_product_details";
@@ -181,7 +187,7 @@ $page_first_result = ($page - 1) * $results_per_page;
 
 $query = "SELECT * FROM e_product_details LIMIT $page_first_result, $results_per_page";
 $result = mysqli_query($link, $query);
-
+//echo "<div class='d-flex justify-content-center my-2' style=color:green;background-color:yellow;width:500px;margin-left:500px;height:30px;padding:5px;border-radius:10px;>$cart_message</div>";
 if ($result) {
     echo "<div class='product-container'>";
     while ($row = mysqli_fetch_assoc($result)) {
@@ -193,7 +199,8 @@ if ($result) {
         $quantity = $row['quantity'];
         $login_id = isset($_SESSION['login_id']) ? $_SESSION['login_id'] : null;
         $product_id = $row['product_id'];
-
+        //$cart_message=($product_id==$cart_id)?$_GET['cart_message']:'';
+        
         if ($quantity == 0) {
             echo "
                 <div class='product-item out-of-stock'>
@@ -212,7 +219,8 @@ if ($result) {
         <img class='product-image' src='/E-commerce website/admin/$image_path' alt='$product_name'>
         <div class='product-details'>
             <a href='/E-commerce website/templates/product_detail.php?product_id=$product_id&user_id=$login_id' style='text-decoration:none'>
-                <p class='product-name'>$product_name</p> 
+               
+            <p class='product-name'>$product_name</p> 
             </a>
             <p class='product-price'>₹ $product_price</p>
             <div class='product-actions' id='product-button'>
@@ -231,6 +239,7 @@ if ($result) {
             </div>
         </div>
     </div>
+     
 ";
 
         }

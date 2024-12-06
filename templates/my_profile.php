@@ -2,9 +2,7 @@
 // Start the session
 session_start();
 
-// Check if the user is logged in (based on the 'login_id' session variable)
 if (!isset($_SESSION['login_id'])) {
-    // If not logged in, redirect to login page
     header('Location: login.php');
     exit();
 }
@@ -22,11 +20,10 @@ $login_id = $_SESSION['login_id'];
 $query = "SELECT * FROM e_login_table WHERE id = '$login_id'";
 $result = mysqli_query($link, $query);
 
-// Check if user exists
+
 if (mysqli_num_rows($result) > 0) {
     $user = mysqli_fetch_assoc($result);
 } else {
-    // If no user is found (e.g., invalid login_id), redirect to login
     header('Location: login.php');
     exit();
 }

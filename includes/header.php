@@ -206,7 +206,7 @@ if (isset($user_id)) {
                                 <i class="bi bi-person me-2"></i> Profile
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                                <li><a class="dropdown-item" href="#">My Profile</a></li>
+                                <li><a class="dropdown-item" href="/E-commerce website/templates/address.php">My Profile</a></li>
                                 <li><a class="dropdown-item" href="/E-commerce website/templates/order_history.php?user_id=<?php echo $user_id; ?>">Order History</a></li>
                                 <li><a class="dropdown-item" href="/E-commerce website/templates/logout_e.php">Logout</a></li>
                             </ul>

@@ -18,15 +18,17 @@ $mail = new PHPMailer(true);
 try {
     // Capture the data from the URL query parameters
     $buyerName = $_GET['buyerName'];
-    $orderDate = $_GET['orderDate'];
+    //$orderDate = $_GET['orderDate'];
     $price = $_GET['price'];
     $paymentMethod = $_GET['paymentMethod'];
     $placedAddress = $_GET['placedAddress'];
     $quantity = $_GET['quantity'];
-    $deliveryDate = $_GET['deliveryDate'];
     $email= $_GET['email'];
     $product_name = isset($_GET['product_name']) ? $_GET['product_name'] : 'Unknown Product';
-    $url= $_GET['url'];
+    //$url= $_GET['url'];
+    
+    $random_days = rand(3, 9);
+    $deliveryDate = date('Y-m-d', strtotime("+$random_days days"));
     // Server settings
     $mail->isSMTP();                                            // Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                         // Set the SMTP server to send through

@@ -73,7 +73,8 @@ if (isset($user_id)) {
     $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
     if ($link) {
      
-        $query = "SELECT * FROM cart_details WHERE user_id = '$user_id'";
+        $query = "SELECT * FROM cart_details WHERE user_id = '$user_id' ORDER BY updated_at DESC";
+
         $result = mysqli_query($link, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
@@ -113,8 +114,14 @@ if (isset($user_id)) {
                     </div>
                 ";
             }
+                echo "<div style='display: flex; justify-content: center; align-items: center;'>
+                <a href='/E-commerce website/templates/buy_cart_items.php?user_id=" . urlencode($user_id) ."' 
+                style='padding: 10px; background-color: gray; color: white; text-align: center; text-decoration: none; 
+                border: 2px solid #e0a800; border-radius: 5px; font-size: 16px; font-weight: bold; '>
+                Check Out</a>
+                </div>";
         } else {
-            echo "<p>No products in your cart.</p>";
+            echo "<div class='alert alert-danger m-auto my-2 d-flex justify-content-center w-50'>No Items in your cart</div>";
         }
     }
     mysqli_close($link);
@@ -131,12 +138,7 @@ function generateQuantityOptions($selectedQuantity) {
 }
 //$product_ids_str = implode(',', $product_ids);
 //echo"<a href='/E-commerce website/templates/buy_now.php?user_id=" . urlencode($user_id) . "&product_id=" . urlencode($product_id) . "' class=d-flex justify-content-end'>Buy Now</a>";
-echo "<div style='display: flex; justify-content: center; align-items: center;'>
-        <a href='/E-commerce website/templates/buy_cart_items.php?user_id=" . urlencode($user_id) ."' 
-        style='padding: 10px; background-color: gray; color: white; text-align: center; text-decoration: none; 
-        border: 2px solid #e0a800; border-radius: 5px; font-size: 16px; font-weight: bold; '>
-        Check Out</a>
-      </div>";
+
 ?>
 
 

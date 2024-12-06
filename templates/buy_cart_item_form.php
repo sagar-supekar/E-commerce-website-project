@@ -6,14 +6,15 @@ if (!isset($_COOKIE['login_id'])) {
     header("Location:welcome.php");
     exit();
 }
-// Include headers
+
+$user_id=$_GET['user_id'];
 include("/home/web/public_html/E-commerce website/includes/header.php");
 include("/home/web/public_html/E-commerce website/includes/second_header.php");
 
 echo "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'>";
 echo "
 <div class='d-flex justify-content-start ms-5 my-2' style='margin-top=10px;'>
-    <a href='/E-commerce website/templates/welcome.php' class='text-decoration-none'>
+    <a href='/E-commerce website/templates/buy_cart_items.php?user_id=$user_id' class='text-decoration-none'>
         <i class='fa fa-arrow-left' aria-hidden='true' style='font-size: 1.5rem;'></i>
     </a>
 </div>";
@@ -24,12 +25,12 @@ if (!$link) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+$user_id = $_GET['user_id'] ?? null;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $errors = [];
-    $user_id = $_GET['user_id'];
-    $quantity=$_GET['quantity'];
-    //$product_id = $_GET['product_id'] ?? null;
-    $dberror='';
+    $quantity = $_GET['quantity'] ?? 0;
+    $dberror = '';
 
     // Form input
     $full_name = trim($_POST["full_name"]);
@@ -68,12 +69,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $errors[] = $paymentMErr;
     }
 
-    // Check if cart items exist
+    // If no errors, insert the order
     if (empty($errors)) {
         $cart_item_product_query = "SELECT * FROM cart_details WHERE user_id='$user_id'";
-        $cart_item_result = mysqli_query($link,  $cart_item_product_query);
+        $cart_item_result = mysqli_query($link, $cart_item_product_query);
+        
         if ($cart_item_result && mysqli_num_rows($cart_item_result) > 0) {
-
             while ($cart_row = mysqli_fetch_assoc($cart_item_result)) {
                 $quantity = $cart_row["quantity"];
                 $product_id = $cart_row["product_id"];
@@ -81,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 // Fetch product details
                 $product_details_query = "SELECT * FROM e_product_details WHERE product_id = '$product_id'";
                 $product_details_result = mysqli_query($link, $product_details_query);
-            
+                
                 if ($product_details_result && mysqli_num_rows($product_details_result) > 0) {
                     $product_row = mysqli_fetch_assoc($product_details_result);
                     $product_name = htmlspecialchars($product_row['product_name']);
@@ -101,70 +102,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                         $dberror = 'Error while inserting the item into order_details.';
                     }
 
-                    //update the quantity count 
-                    // $update_quantity_query = "UPDATE e_product_details SET quantity = quantity - $quantity WHERE product_id = '$product_id'";
-                    // mysqli_query($link, $update_quantity_query);
-
-                    // //delete the cart tems from cart
-                    // $delete_cart_query = "DELETE FROM cart_details WHERE user_id='$user_id' AND product_id='$product_id'";
-                    // mysqli_query($link, $delete_cart_query);
-                    header("Location:buy_cart_email.php?email=" . urlencode($email)."&user_id=".urlencode( $user_id)."&quantity=".urlencode( $quantity)."&name=".urlencode(   $full_name));
+                    header("Location:buy_cart_email.php?email=" . urlencode($email) . "&user_id=" . urlencode($user_id) . "&quantity=" . urlencode($quantity) . "&name=" . urlencode($full_name));
                 }
             }
         }
     }
 }
 
+// Fetch address details 
+$address_query = "SELECT * FROM address WHERE user_id='$user_id'";
+$address_result = mysqli_query($link, $address_query);
+$address_data = mysqli_fetch_assoc($address_result);
+
 mysqli_close($link);
 ob_end_flush();
 ?>
 
-<div class="container mt-5">
-    <h2 class="mb-4 text-center">Buy Product</h2>
-    <div class="col-md-3">
-        <div class="card d-flex-justify-content-center p-4">
+<div class="container mt-5 col-md-6">
+    <h2 class="mb-4 text-center"style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;margin-right:14px">Address Details</h2>
+    <div class="col-md-10 my-5" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;">
+        <div class="card d-flex-justify-content-center p-4" style="margin-left:60px;">
             <form method="POST">
-            <span class="error" style="color:red;"><?php echo $dberror; ?></span>
-                <div class="mb-3">
-                    <label for="full_name" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="full_name" name="full_name">
-                    <span class="error" style="color:red;"><?php echo $nameErr; ?></span>
+                <span class="error" style="color:red;"><?php echo $dberror; ?></span>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="full_name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo $address_data['name'] ?? ''; ?>">
+                        <span class="error" style="color:red;"><?php echo $nameErr; ?></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?php echo $address_data['email'] ?? ''; ?>">
+                        <span class="error" style="color:red;"><?php echo $emailErr; ?></span>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="email" name="email">
-                    <span class="error" style="color:red;"><?php echo $emailErr; ?></span>
-                </div>
+
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
-                    <textarea class="form-control" id="address" name="address" rows="3"></textarea>
+                    <textarea class="form-control" id="address" name="address" rows="3"><?php echo $address_data['address'] ?? ''; ?></textarea>
                     <span class="error" style="color:red;"><?php echo $addressErr; ?></span>
                 </div>
-                <div class="mb-3">
-                    <label for="pincode" class="form-label">Pincode</label>
-                    <input type="text" class="form-control" id="pincode" name="pincode">
-                    <span class="error" style="color:red;"><?php echo $pincodeErr; ?></span>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="pincode" class="form-label">Pincode</label>
+                        <input type="text" class="form-control" id="pincode" name="pincode" value="<?php echo $address_data['pincode'] ?? ''; ?>">
+                        <span class="error" style="color:red;"><?php echo $pincodeErr; ?></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="mobile" class="form-label">Mobile Number</label>
+                        <input type="text" class="form-control" id="mobile" name="mobile" value="<?php echo $address_data['mobile_no'] ?? ''; ?>">
+                        <span class="error" style="color:red;"><?php echo $mobileErr; ?></span>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="mobile" class="form-label">Mobile Number</label>
-                    <input type="text" class="form-control" id="mobile" name="mobile">
-                    <span class="error" style="color:red;"><?php echo $mobileErr; ?></span>
-                </div>
+
                 <div class="mb-3">
                     <label class="form-label">Payment Method</label>
                     <div>
-                        <input type="radio" id="cod" name="payment_method" value="COD">
+                        <input type="radio" id="cod" name="payment_method" value="COD" <?php echo ($address_data['payment_method'] ?? '') === 'COD' ? 'checked' : ''; ?>>
                         <label for="cod">Cash on Delivery</label><br>
-                        <input type="radio" id="online" name="payment_method" value="Online">
+                        <input type="radio" id="online" name="payment_method" value="Online" <?php echo ($address_data['payment_method'] ?? '') === 'Online' ? 'checked' : ''; ?>>
                         <label for="online">Online Payment</label><br>
                     </div>
                     <span class="error" style="color:red;"><?php echo $paymentMErr; ?></span>
                 </div>
-                <button type="submit" class="btn btn-primary" name="submit">Place Order</button>
+
+                <button type="submit" class="btn btn-primary w-100" name="submit">Place Order</button>
             </form>
         </div>
     </div>
 </div>
+
 <?php
 include("/home/web/public_html/E-commerce website/includes/footer.php");
 ?>

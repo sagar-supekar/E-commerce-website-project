@@ -143,7 +143,7 @@ mysqli_close($link);
         <form method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="productName">Product Name:</label>
-                <input type="text" id="productName" name="product_name" value="<?php echo $product['product_name']; ?>" required>
+                <input type="text" id="productName" name="product_name" value="<?php echo $product['product_name']; ?>">
             </div>
             <div class="form-group">
                 <label for="category">Category:</label>
@@ -155,7 +155,7 @@ mysqli_close($link);
             </div>
             <div class="form-group">
                 <label for="price">Price:</label>
-                <input type="number" id="price" name="price" value="<?php echo $product['price']; ?>" required>
+                <input type="number" id="price" name="price" value="<?php echo $product['price']; ?>">
             </div>
             <div class="form-group">
                 <label for="quantity">Quantity:</label>

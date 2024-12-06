@@ -8,7 +8,11 @@ if(isset($_COOKIE['login_id']))
     header("Location:welcome.php");
     exit();
 }
-
+$message='';
+if(isset($_GET["message"]))
+{
+    $message = $_GET["message"];
+}
 include("/home/web/public_html/E-commerce website/includes/header.php");
 include("/home/web/public_html/E-commerce website/includes/second_header.php");
 ?>
@@ -26,17 +30,26 @@ if (mysqli_connect_error()) {
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-
+$emailErr=$passErr='';
 if (array_key_exists('email', $_POST) || array_key_exists('password', $_POST)) {
     $error = "";
     $success = "";
-
+   
 
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-
-
+    if(empty($username))
+    {
+        $emailErr='email is require';
+    }
+    elseif (!filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        $emailErr = "Invalid email format";
+    }
+    if(empty($password))
+    {
+        $passErr="password is require";
+    }
     //check validation for the admin user 
     if ($username == "root" && $password == "root") {
         $_SESSION['username'] = $username;
@@ -45,13 +58,20 @@ if (array_key_exists('email', $_POST) || array_key_exists('password', $_POST)) {
 
         $query = "SELECT * FROM e_login_table WHERE email='$username'";
         $result = mysqli_query($link, $query);
+     
         if (mysqli_num_rows($result) > 0) {
 
             $row = mysqli_fetch_assoc($result);
+            $address_user_id= $row["id"];
+            $address_query="SELECT * FROM address WHERE user_id=$address_user_id";
+            $address_result = mysqli_query($link, $address_query);
+            $address_row=mysqli_fetch_assoc($address_result);
+           // $address_id=$address_row["add_id"];
             $hash_password = $row["password"];
             if (password_verify($password, $hash_password)) {
                 $success = "<p>Login successful</p>";
                 $_SESSION['login_id']=$row['id'];
+                $_SESSION['add_id']= $address_id;
                 setcookie('login_id', $row['id'], time() + 24 * 60 * 60 * 365);
                 
                // echo "login id is".$_SESSION['login_id'];
@@ -175,7 +195,6 @@ ob_end_flush();
 </head>
 
 <body>
-    <!-- Company Name -->
     <div class="center-wrapper">
         <div class="company-name text-primary">EzyBuy</div>
 
@@ -203,11 +222,13 @@ ob_end_flush();
                 <?php } ?>
                 <div class="mb-3">
                     <label for="username" class="form-label">Email</label>
-                    <input type="text" class="form-control" id="username" placeholder="Enter your email" name="username" required>
+                    <input type="text" class="form-control" id="username" placeholder="Enter your email" name="username"value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
+                    <small class="text-danger"><?php echo $emailErr; ?></small>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter your password" name="password" required>
+                    <input type="password" class="form-control" id="password" placeholder="Enter your password" name="password">
+                    <small class="text-danger"><?php echo $passErr; ?></small>
                 </div>
                 <button type="submit" class="btn btn-primary w-100" style="background-color:orangered">Login</button>
             </form>

@@ -4,7 +4,16 @@ error_reporting(E_ALL);
 include("/home/web/public_html/E-commerce website/includes/header.php");
 include("/home/web/public_html/E-commerce website/includes/second_header.php");
 ?>
-
+ <?php
+ echo "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'>";
+ echo "
+ <div class='d-flex justify-content-start ms-5 my-2' style='margin-top=10px;'>
+     <a href='/E-commerce website/templates/category/appliencs_cart_templates.php' class='text-decoration-none'>
+         <i class='fa fa-arrow-left' aria-hidden='true' style='font-size: 1.5rem;'></i>
+     </a>
+ </div>";
+ 
+ ?>
 <style>
     body {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;

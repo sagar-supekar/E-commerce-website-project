@@ -70,9 +70,9 @@ if ($result && mysqli_num_rows($result) > 0) {
         <!-- Right Section: Price Summary -->
         <div style='width: 35%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 8px; margin-right:25px;'>
             <h2 class='text-center'>Price Details</h2>
-            <h2 class='text-start'>Price ($total_items items): ₹" . number_format($total_price, 2) . "</h2>
-            <h2 class='text-start'>Delivery Charges :<del>₹120</del><span style='color:green;'> Free </span></h2> 
-            <h2 class='text-start'>Total Amount: ₹" . number_format($total_price, 2) . "</h2>
+            <h4 class='text-start'>Price ($total_items items): ₹" . number_format($total_price, 2) . "</h4>
+            <h4 class='text-start'>Delivery Charges :<del>₹120</del><span style='color:green;'> Free </span></h4> 
+            <h4 class='text-start'>Total Amount: ₹" . number_format($total_price, 2) . "</h4>
             <div style='display: flex; gap: 20px; margin-top: 20px;'>
                 <a href='/E-commerce website/templates/show_cart_items.php?user_id=$user_id' 
                     style='padding: 10px 20px; background-color: red; color: white; text-decoration: none; border-radius: 5px; font-size: 16px;'>

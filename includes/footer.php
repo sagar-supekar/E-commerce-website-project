@@ -14,7 +14,6 @@
             background-color:#262634;
             color: white;
             padding-top: 40px;
-            padding-bottom: 20px;
             bottom: 0;
         }
 
@@ -57,16 +56,14 @@
                 text-align: center;
             }
 
-            footer .footer-container .col-md-4 {
-                margin-bottom: 20px;
-            }
+            
         }
     </style>
 </head>
 <body>
 
     <!-- Footer Section -->
-    <footer class=" text-white py-4">
+    <footer class=" text-white ">
         <div class="container">
             <div class="row">
       

@@ -68,7 +68,7 @@ if (!$result) {
     <div class="container-fluid">
         <h2 class="text mx-3 mb-0">All Records <?php echo $total_records; ?></h2>
         <div class="d-flex ms-auto">
-             <!-- <a href="admin_customer_details.php" class="btn btn-warning mx-2">All Registered Users</a> -->
+             <a href="admin_registered_user.php" class="btn btn-secondary mx-2">All Registered Users</a>
             <a href="admin_customer_details.php" class="btn btn-warning mx-2">Customer Details</a>
             <a href="add_product.php" class="btn btn-success mx-2">Add New Item</a>
         </div>

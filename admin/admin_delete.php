@@ -25,3 +25,8 @@ if(isset($_GET["id"]))
     }
 }
 ?>
+<html>
+    <head>
+        <title>Delete Product</title>
+    </head>
+</html>

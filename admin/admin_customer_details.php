@@ -2,6 +2,11 @@
 session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+if (!isset($_SESSION['username'])) {
+    // If not logged in, redirect to sign-in page
+    header("Location: /E-commerce website/templates/welcome.php");
+    exit();
+}
 include('admin_header.php');
 
 // Database connection
@@ -41,7 +46,7 @@ $start_from = ($current_page - 1) * $records_per_page;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Order Details</title>
+    <title>Customer Details</title>
 
   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">

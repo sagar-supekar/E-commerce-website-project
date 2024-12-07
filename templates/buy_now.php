@@ -191,6 +191,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     // $address=$_POST['address'];
 }
 ?>
+<html>
+    <head>
+        <title>Buy Now</title>
+    </head>
+</html>
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Buy Product</h2>
 

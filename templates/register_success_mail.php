@@ -75,7 +75,7 @@ try {
 ";
 
     $mail->send();
-    header("Location: /E-commerce website/templates/login.php?message=Register mail send successfully&url=$url");
+    header("Location: /E-commerce website/templates/login.php?message=Register successfully you can Login now&url=$url");
     exit;
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";

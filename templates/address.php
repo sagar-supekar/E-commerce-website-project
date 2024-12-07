@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($mobile_number)) {
         $mobileErr = "Mobile number is required";
-    } elseif (!preg_match("/^[6-9]\d{9}$/", $mobile_number)) {
+    } elseif (!preg_match("/^[1-9]\d{9}$/", $mobile_number)) {
         $mobileErr = "Mobile number length should be 10";
     }
 

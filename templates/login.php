@@ -195,9 +195,12 @@ ob_end_flush();
 </head>
 
 <body>
+    
     <div class="center-wrapper">
         <div class="company-name text-primary">EzyBuy</div>
-
+        <?php if (!empty($message)) : ?>
+            <div class="alert alert-success"><?php echo htmlspecialchars($message); ?></div>
+        <?php endif; ?>
         <!-- Login Form Section -->
         <div class="login-form-container border rounded shadow">
             <h2 class="text-center">Welcome Back!</h2>

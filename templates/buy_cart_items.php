@@ -69,7 +69,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
         <!-- Right Section: Price Summary -->
         <div style='width: 35%; text-align: center; padding: 20px; border: 1px solid #ccc; border-radius: 8px; margin-right:25px;'>
-            <h2 class='text-center'>Order Information</h2>
+            <h2 class='text-center'>Price Details</h2>
             <h2 class='text-start'>Price ($total_items items): ₹" . number_format($total_price, 2) . "</h2>
             <h2 class='text-start'>Delivery Charges :<del>₹120</del><span style='color:green;'> Free </span></h2> 
             <h2 class='text-start'>Total Amount: ₹" . number_format($total_price, 2) . "</h2>
@@ -92,6 +92,11 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 mysqli_close($link);
 ?>
+<html>
+    <head>
+        <title>EzyBuy-Check-Out</title>
+    </head>
+</html>
 <?php
 //include("/home/web/public_html/E-commerce website/includes/footer.php");
 ?>

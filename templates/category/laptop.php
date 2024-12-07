@@ -279,7 +279,11 @@ if ($page < $number_of_page) {
 echo "</div>";
 
 ?>
-
+<html>
+    <head>
+        <title>Laptop</title>
+    </head>
+</html>
 <?php
 include("/home/web/public_html/E-commerce website/includes/footer.php");
 ?>

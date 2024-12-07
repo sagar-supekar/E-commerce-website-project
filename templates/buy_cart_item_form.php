@@ -18,7 +18,11 @@ echo "
         <i class='fa fa-arrow-left' aria-hidden='true' style='font-size: 1.5rem;'></i>
     </a>
 </div>";
-
+$full_name_i='';
+$email_i='';
+ $pincode_i='';
+$mobile_number_i='';
+$address_i='';
 $nameErr = $emailErr = $addressErr = $pincodeErr = $mobileErr = $paymentMErr = $dberror='';
 $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 if (!$link) {
@@ -31,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $errors = [];
     $quantity = $_GET['quantity'] ?? 0;
     $dberror = '';
-
+ 
     // Form input
     $full_name = trim($_POST["full_name"]);
     $email = trim($_POST["email"]);
@@ -56,11 +60,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $addressErr = "Address is required.";
         $errors[] = $addressErr;
     }
-    if (empty($pincode) || !preg_match("/^\d{6}$/", $pincode)) {
-        $pincodeErr = "Invalid Pincode. Must be 6 digits.";
+    if (empty($pincode)) {
+        $pincodeErr = "Pincode is require.";
         $errors[] = $pincodeErr;
     }
-    if (empty($mobile) || !preg_match("/^\d{10}$/", $mobile)) {
+    else{
+        if(!preg_match("/^\d{6}$/", $pincode))
+        {
+            $pincodeErr = "Invalid pincode require 6 digit.";
+            $errors[] = $pincodeErr;
+        }
+    }
+    if (empty($mobile) || !preg_match("/^[1-9]\d{9}$/", $mobile)) {
         $mobileErr = "Invalid Mobile Number. Must be 10 digits.";
         $errors[] = $mobileErr;
     }
@@ -113,7 +124,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 $address_query = "SELECT * FROM address WHERE user_id='$user_id'";
 $address_result = mysqli_query($link, $address_query);
 $address_data = mysqli_fetch_assoc($address_result);
-
+$buyerName = isset($address_data['name']) ? $address_data['name'] : "";
+$email = isset($address_data['email']) ? $address_data['email'] : "";
+$pincode=isset($address_data['pincode']) ? $address_data['pincode'] : "";
+$mobile=isset($address_data['mobile_no']) ? $address_data['mobile_no'] : "";
+$address = isset($address_data['address']) ?$address_data['address'] :"";
 mysqli_close($link);
 ob_end_flush();
 ?>
@@ -129,31 +144,31 @@ ob_end_flush();
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="full_name" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo $address_data['name'] ?? ''; ?>">
+                        <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo isset($_POST['full_name']) ? htmlspecialchars($_POST['full_name']) : (isset($buyerName) && $buyerName ? htmlspecialchars($buyerName) : htmlspecialchars($full_name_i)); ?>">
                         <span class="error" style="color:red;"><?php echo $nameErr; ?></span>
                     </div>
                     <div class="col-md-6">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?php echo $address_data['email'] ?? ''; ?>">
+                        <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : (isset($email) && $email ? htmlspecialchars($email) : htmlspecialchars($email_i)); ?>">
                         <span class="error" style="color:red;"><?php echo $emailErr; ?></span>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
-                    <textarea class="form-control" id="address" name="address" rows="3"><?php echo $address_data['address'] ?? ''; ?></textarea>
+                    <textarea class="form-control" id="address" name="address" rows="3"><?php echo isset($_POST['address']) ? htmlspecialchars($_POST['address']) : (isset($address) && $address ? htmlspecialchars($address) : htmlspecialchars($address_i)); ?></textarea>
                     <span class="error" style="color:red;"><?php echo $addressErr; ?></span>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="pincode" class="form-label">Pincode</label>
-                        <input type="text" class="form-control" id="pincode" name="pincode" value="<?php echo $address_data['pincode'] ?? ''; ?>">
+                        <input type="text" class="form-control" id="pincode" name="pincode" value="<?php echo isset($_POST['pincode']) ? htmlspecialchars($_POST['pincode']) : (isset($pincode) && $pincode ? htmlspecialchars($pincode) : htmlspecialchars($pincode_i)); ?>">
                         <span class="error" style="color:red;"><?php echo $pincodeErr; ?></span>
                     </div>
                     <div class="col-md-6">
                         <label for="mobile" class="form-label">Mobile Number</label>
-                        <input type="text" class="form-control" id="mobile" name="mobile" value="<?php echo $address_data['mobile_no'] ?? ''; ?>">
+                        <input type="text" class="form-control" id="mobile" name="mobile" value="<?php echo isset($_POST['mobile']) ? htmlspecialchars($_POST['mobile']) : (isset($mobile) && $mobile ? htmlspecialchars($mobile) : htmlspecialchars($mobile_number_i)); ?>">
                         <span class="error" style="color:red;"><?php echo $mobileErr; ?></span>
                     </div>
                 </div>
@@ -161,9 +176,9 @@ ob_end_flush();
                 <div class="mb-3">
                     <label class="form-label">Payment Method</label>
                     <div>
-                        <input type="radio" id="cod" name="payment_method" value="COD" <?php echo ($address_data['payment_method'] ?? '') === 'COD' ? 'checked' : ''; ?>>
+                        <input type="radio" id="cod" name="payment_method" value="COD" <?php echo (isset($_POST['payment_method']) && $_POST['payment_method'] == 'COD') ? 'checked' : ''; ?>>
                         <label for="cod">Cash on Delivery</label><br>
-                        <input type="radio" id="online" name="payment_method" value="Online" <?php echo ($address_data['payment_method'] ?? '') === 'Online' ? 'checked' : ''; ?>>
+                        <input type="radio" id="online" name="payment_method" value="Online" <?php echo (isset($_POST['payment_method']) && $_POST['payment_method'] == 'Online') ? 'checked' : ''; ?>>
                         <label for="online">Online Payment</label><br>
                     </div>
                     <span class="error" style="color:red;"><?php echo $paymentMErr; ?></span>
@@ -174,7 +189,11 @@ ob_end_flush();
         </div>
     </div>
 </div>
-
+<html>
+    <head>
+        <title>EzyBuy-Check Out</title>
+    </head>
+</html>
 <?php
 include("/home/web/public_html/E-commerce website/includes/footer.php");
 ?>

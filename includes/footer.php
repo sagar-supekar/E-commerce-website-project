@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Footer</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -79,21 +78,10 @@
                     <h5 class="text-uppercase mb-3">Quick Links</h5>
                     <ul class="list-unstyled">
                         <li><a href="/E-commerce website/templates/welcome.php" class="text-white text-decoration-none">Home</a></li>
-                        <li><a href="#about" class="text-white text-decoration-none">About Us</a></li>
+                        <!-- <li><a href="#about" class="text-white text-decoration-none">About Us</a></li>
                         <li><a href="#services" class="text-white text-decoration-none">Services</a></li>
                         <li><a href="#contact" class="text-white text-decoration-none">Contact</a></li>
-                        <li><a href="#privacy" class="text-white text-decoration-none">Privacy Policy</a></li>
-                    </ul>
-                </div>
-
-                <!-- Social Media Section -->
-                <div class="col-md-4">
-                    <h5 class="text-uppercase mb-3">Connect with Us</h5>
-                    <ul class="list-unstyled social-media">
-                        <li><a href="https://facebook.com" target="_blank" class="text-white text-decoration-none">Facebook</a></li>
-                        <li><a href="https://twitter.com" target="_blank" class="text-white text-decoration-none">Twitter</a></li>
-                        <li><a href="https://linkedin.com" target="_blank" class="text-white text-decoration-none">Linkedin</a></li>
-                        <li><a href="https://instagram.com" target="_blank" class="text-white text-decoration-none">Instagram</a></li>
+                        <li><a href="#privacy" class="text-white text-decoration-none">Privacy Policy</a></li> -->
                     </ul>
                 </div>
             </div>
@@ -101,13 +89,6 @@
             <!-- Footer Bottom Section -->
             <div class="row mt-4 footer-bottom">
                 <div class="col-12 text-center">
-        
-                    <ul class="list-unstyled social-media d-flex justify-content-center">
-                        <li><a href="https://facebook.com" target="_blank" class="text-white text-decoration-none mx-3"><i class="fab fa-facebook"></i></a></li>
-                        <li><a href="https://twitter.com" target="_blank" class="text-white text-decoration-none mx-3"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="https://linkedin.com" target="_blank" class="text-white text-decoration-none mx-3"><i class="fab fa-linkedin"></i></a></li>
-                        <li><a href="https://instagram.com" target="_blank" class="text-white text-decoration-none mx-3"><i class="fab fa-instagram"></i></a></li>
-                    </ul>
                     <p class="small text-muted">&copy; 2024 EzyBuy. All rights reserved.</p>
                 </div>
             </div>

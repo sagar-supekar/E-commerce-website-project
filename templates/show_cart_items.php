@@ -87,39 +87,43 @@ if (isset($user_id)) {
                 $product_id = $row['product_id'];
                 // Display cart details for each product
                 echo "
-                    <div class='container mt-4' id='$product_id'>
+                    <div class='container mt-4  id='$product_id'>
                         <div class='row align-items-center mb-4'>
                             <div class='col-md-3'>
                                 <img src='/E-commerce website/admin/$image_path' class='img-fluid' alt='$product_name' style='max-height: 200px; object-fit: cover; border-radius: 10px;'>
                             </div>
-                            <div class='col-md-9'>
+                            <div class='col-md-9 my-2''>
                                 <h4>$product_name</h4>
                                 <p><strong>Price:</strong> ₹<span class='product-price' id='price-$product_id'>$product_price</span></p>
-                                <p><strong>Description:</strong> $product_description</p>
                                 <p><strong>Quantity:</strong><span id='q-quantity-$product_id'> $quantity</span></p>
-                                <p><strong>Total Price:</strong><span id='total-price-$product_id'>₹$total_price</span></p>
-                                 <div class='mb-3'>
+                                <p><strong>Total Price: </strong><span id='total-price-$product_id'>₹$total_price</span></p>
+                                 <div class='d-flex row'>
+                                     
                                     <label for='quantity-$product_id' class='form-label'><strong>Quantity:</strong></label>
+                                    <div class='col-3'>
                                      <select id='quantity-$product_id' class='form-select' style='width: 120px;'>
                                      " . generateQuantityOptions($quantity) . "
                                      </select>
-                                </div>
-                               <div class='row'>
-                                    <div class='col-sm'>
+                                      </div>
+                                    <div class='col-3'>
                                         <a href='/E-commerce website/templates/delete_product.php?user_id=" . urlencode($user_id) . "&product_id=" . urlencode($product_id) . "' class='btn btn-danger style='margin-right: 0;'>Remove from Cart</a>
                                     </div>
                                 </div>
+                                </div>
+                              
                             </div>
                         </div>
                     </div>
                 ";
             }
-                echo "<div style='display: flex; justify-content: center; align-items: center;'>
+            echo "<hr>";
+                echo "<div style='display: flex; justify-content:end; align-items: center;margin-right:100px;margin-bottom:100px;'>
                 <a href='/E-commerce website/templates/buy_cart_items.php?user_id=" . urlencode($user_id) ."' 
-                style='padding: 10px; background-color: gray; color: white; text-align: center; text-decoration: none; 
+                style='padding: 10px; background-color: blue; color: white; text-align:end; text-decoration: none; 
                 border: 2px solid #e0a800; border-radius: 5px; font-size: 16px; font-weight: bold; '>
                 Check Out</a>
                 </div>";
+               
         } else {
             echo "<div class='alert alert-danger m-auto my-2 d-flex justify-content-center w-50'>No Items in your cart</div>";
         }
@@ -194,6 +198,11 @@ function generateQuantityOptions($selectedQuantity) {
 
 
 </script>
+<html>
+    <head>
+        <title>Cart Items</title>
+    </head>
+</html>
 <?php
 include("/home/web/public_html/E-commerce website/includes/footer.php");
 ?>

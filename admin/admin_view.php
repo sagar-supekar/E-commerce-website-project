@@ -2,6 +2,11 @@
 session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+if (!isset($_SESSION['username'])) {
+    // If not logged in, redirect to sign-in page
+    header("Location: /E-commerce website/templates/welcome.php");
+    exit();
+}
 include('admin_header.php');
 
 // Database connection

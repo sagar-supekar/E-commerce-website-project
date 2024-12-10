@@ -9,12 +9,25 @@ if(!isset($_COOKIE['login_id']))
 
 include("/home/web/public_html/E-commerce website/includes/header.php");
 include("/home/web/public_html/E-commerce website/includes/second_header.php");
+echo "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'>";
+echo "
+<div class='d-flex justify-content-start ms-5 my-2' style='margin-top=10px;'>
+    <a href='/E-commerce website/templates/welcome.php' class='text-decoration-none'>
+        <i class='fa fa-arrow-left' aria-hidden='true' style='font-size: 1.5rem;'></i>
+    </a>
+</div>";
+
 $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 $user_id = isset($_COOKIE['login_id']) ? $_COOKIE['login_id'] : null;
 
 if (mysqli_connect_error()) {
     die("Connection error: " . mysqli_connect_error());
 } 
+$update_order_message='';
+if(isset($_GET['update_order_message']))
+{
+    $update_order_message=$_GET['update_order_message']?$update_order_message=$_GET['update_order_message']:'';
+}
 
 $message = isset($_GET['message']) ? $_GET['message'] : "";
 
@@ -34,7 +47,8 @@ $result = mysqli_query($link, $query);
     <style>
         .order-item {
             display: flex;
-           
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 14px;
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 20px;
@@ -96,6 +110,7 @@ $result = mysqli_query($link, $query);
 <body>
     <div class="container my-5">
     <div class="text-center" style="color:green;"> <?php echo htmlspecialchars($message); ?></div>
+    <div class="text-center" style="color:green;"> <?php echo htmlspecialchars($update_order_message); ?></div>
         <h2 class="text-center">Order History</h2>
         <?php if (mysqli_num_rows($result) > 0): ?>
             <?php $count=1; ?>

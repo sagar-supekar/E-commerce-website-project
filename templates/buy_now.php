@@ -115,22 +115,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $image_path = htmlspecialchars($product['image_path']);
         
         // Fetch address details
-        if (mysqli_num_rows($address_result) > 0) {
-            $buyerName = $address['name'];
-            $mobileNumber = $address['mobile_no'];
-            $user_address = $address['address'];
-            $pincode = $address['pincode'];
-        } else {
-            $buyerName = "";
-            $mobileNumber = "";
-            $user_address = "";
-            $pincode = "";  
-        }
+        // if (mysqli_num_rows($address_result) > 0) {
+        //     $buyerName = $address['name'];
+        //     $mobileNumber = $address['mobile_no'];
+        //     $user_address = $address['address'];
+        //     $pincode = $address['pincode'];
+        // } else {
+        //     $buyerName = "";
+        //     $mobileNumber = "";
+        //     $user_address = "";
+        //     $pincode = "";  
+        // }
         
         // Insert order
         $order_query = "
             INSERT INTO order_details (user_id, product_id, full_name, product_name, product_price, quantity, payment_method, image_path, mobile_number, address, pincode)
-            VALUES ('$user_id', '$product_id', '$buyerName', '$product_name', '$product_price', '$quantity', '$payment_method', '$image_path', '$mobileNumber', '$user_address', '$pincode')
+            VALUES ('$user_id', '$product_id', '$full_name', '$product_name', '$product_price', '$quantity', '$payment_method', '$image_path', '$mobile_number', '$add', '$pincode')
         ";
         
         if (mysqli_query($link, $order_query)) {

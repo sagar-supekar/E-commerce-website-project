@@ -165,10 +165,18 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
         filter: grayscale(100%);
         opacity: 0.8;
     }
+   #cart__item{
+    color:blue;
+   }
 </style>
-
 <?php
+
+?>
+<?php
+$product_name=$_GET['cart_message'];
+echo "<div class='text-center' id='cart__item'> $product_name";
 include("carousel.php");
+
 //echo "<img src='/E-commerce website/admin/uploads/e-commerce.jpeg' style='height:40%;width:100%;padding:20px;'>";
 $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 
@@ -252,7 +260,7 @@ mysqli_close($link);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>EzyBuy</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -313,7 +321,7 @@ mysqli_close($link);
                     <div class="card">
                         <img class="card-img-top p-2" src="/E-commerce website/admin/uploads/mobiles.jpeg" alt="Laptop">
                         <div class="card-body">
-                            <h5 class="text-center">Price: ₹ 80,000</h5>
+                            <!-- <h5 class="text-center">Price: ₹ 80,000</h5> -->
                             <a href="/E-commerce website/templates/category/mobile_cart_templates.php" class="btn btn-primary w-100">Mobile</a>
                         </div>
                     </div>
@@ -324,7 +332,7 @@ mysqli_close($link);
                     <div class="card">
                         <img class="card-img-top p-4" src="/E-commerce website/admin/uploads/electronics.jpeg" alt="Smart Watches">
                         <div class="card-body">
-                            <h5 class="text-center">Price: ₹ 4,000</h5>
+                            <!-- <h5 class="text-center">Price: ₹ 4,000</h5> -->
                             <a href="/E-commerce website/templates/category/electronics_cart_templates.php" class="btn btn-primary w-100">Electronics</a>
                         </div>
                     </div>
@@ -335,7 +343,7 @@ mysqli_close($link);
                     <div class="card">
                         <img class="card-img-top p-4" src="/E-commerce website/admin/uploads/appliences.jpeg" alt="Earbuds">
                         <div class="card-body">
-                            <h5 class="text-center">Price: ₹ 2,000</h5>
+                            <!-- <h5 class="text-center">Price: ₹ 2,000</h5> -->
                             <a href="/E-commerce website/templates/category/appliencs_cart_templates.php" class="btn btn-primary w-100">Appliances</a>
                         </div>
                     </div>

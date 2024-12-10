@@ -89,7 +89,6 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
         content: "";
         display: block;
         width: 100%;
-        height: 1px;
         background-color: #ddd;
         margin-top: 20px;
     }

@@ -75,8 +75,30 @@
                     <h5 class="text-uppercase mb-3">Quick Links</h5>
                     <ul class="list-unstyled">
                         <li><a href="/E-commerce website/templates/welcome.php" class="text-white text-decoration-none">Home</a></li>
-                        <!-- <li><a href="#about" class="text-white text-decoration-none">About Us</a></li>
-                        <li><a href="#services" class="text-white text-decoration-none">Services</a></li>
+                       <!-- <li><a href="" class="text-white text-decoration-none">Mobile</a></li> -->
+                         <!-- <li><a href="#services" class="text-white text-decoration-none">Services</a></li>
+                        <li><a href="#contact" class="text-white text-decoration-none">Contact</a></li>
+                        <li><a href="#privacy" class="text-white text-decoration-none">Privacy Policy</a></li> -->
+                    </ul>
+                </div>
+
+                <div class="col-md-4">
+                    <h5 class="text-uppercase mb-3">category</h5>
+                    <ul class="list-unstyled">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <li><a href="/E-commerce website/templates/category/mobile_cart_templates.php" class="text-white text-decoration-none">Mobile</a></li>
+                            </div>
+                            <div class="col-md-4">
+                                 <li><a href="/E-commerce website/templates/category/electronics_cart_templates.php" class="text-white text-decoration-none">Electronics</a></li>
+                            </div>
+                            <div class="col-md-4">
+                                 <li><a href="/E-commerce website/templates/category/appliencs_cart_templates.php" class="text-white text-decoration-none">Appliences</a></li>
+                            </div>
+                        </div>
+                        
+                       
+                        <!-- <li><a href="#services" class="text-white text-decoration-none">Services</a></li>
                         <li><a href="#contact" class="text-white text-decoration-none">Contact</a></li>
                         <li><a href="#privacy" class="text-white text-decoration-none">Privacy Policy</a></li> -->
                     </ul>

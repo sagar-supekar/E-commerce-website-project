@@ -21,7 +21,12 @@ echo "
 
 $nameErr = $addressErr = $pincodeErr = $mobileErr = $quantityErr = $paymentMErr = '';
 $order = null;
-
+$update_order_message='';
+if(isset($_GET['update_order_message']))
+{
+    $update_order_message=$_GET['update_order_message'];
+}
+echo $update_order_message;
 // Database connection
 $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 if (!$link) {
@@ -42,8 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $address = trim($_POST["address"]);
     $pincode = trim($_POST["pincode"]);
     $mobile = trim($_POST["mobile"]);
-    $quantity = trim($_POST["quantity"]);
-    $payment_method = $_POST["payment_method"] ?? "";
 
     // Input validation
     if (empty($full_name)) {
@@ -62,32 +65,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $mobileErr = "Invalid Mobile Number. Must be 10 digits.";
         $errors[] = $mobileErr;
     }
-    if (empty($quantity) || !is_numeric($quantity) || $quantity <= 0 ||$quantity>=5) {
-        $quantityErr = "Quantity must be a positive number or not greater than 5.";
-        $errors[] = $quantityErr;
-    }
-    if (empty($payment_method)) {
-        $paymentMErr = "Please select a Payment Method.";
-        $errors[] = $paymentMErr;
-    }
 
     if (empty($errors)) {
         // Update the order in the database
         $query = "
             UPDATE order_details
             SET full_name = '$full_name', address = '$address', pincode = '$pincode', 
-                mobile_number = '$mobile', quantity = $quantity, payment_method = '$payment_method'
+                mobile_number = '$mobile'
             WHERE order_id = '$order_id'
         ";
+
         if (mysqli_query($link, $query)) {
-            header("Location: /E-commerce website/templates/order_history.php");
+            header("Location: /E-commerce website/templates/order_history.php?update_order_message=order update successfully");
             exit();
         } else {
             echo "<p style='color: red; text-align: center;'>Error updating order: " . mysqli_error($link) . "</p>";
         }
     }
 }
-
+ 
 // Fetch order details for display
 if (isset($_GET["order_id"])) {
     $order_id = mysqli_real_escape_string($link, $_GET["order_id"]);
@@ -143,7 +139,7 @@ ob_end_flush();
                             <input type="text" class="form-control" id="mobile" name="mobile" value="<?php echo isset($order['mobile_number']) ? $order['mobile_number'] : ''; ?>">
                             <span class="error" style="color:red;"><?php echo $mobileErr; ?></span>
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="quantity" class="form-label">Quantity</label>
                             <input type="text" class="form-control" id="quantity" name="quantity" value="<?php echo isset($order['quantity']) ? $order['quantity'] : ''; ?>">
                             <span class="error" style="color:red;"><?php echo $quantityErr; ?></span>
@@ -157,7 +153,7 @@ ob_end_flush();
                                 <label for="online">Online Payment</label>
                                 <span class="error" style="color:red;"><?php echo $paymentMErr; ?></span>
                             </div>
-                        </div>
+                        </div> -->
                         <button type="submit" class="btn btn-success w-100" name="submit">Update Order</button>
                     </form>
                 </div>

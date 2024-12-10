@@ -103,9 +103,8 @@ if (!$result) {
                 <td><?php echo $row['email']; ?></td>
                 <td>
                     <!-- Edit button with user_id in URL -->
-                    <a href="edit_register_user.php?user_id=<?php echo urlencode($user_id); ?>" class="btn btn-warning">Edit</a>
-                    <a href="delete_register_user.php?user_id=<?php echo urlencode($user_id); ?>" class="btn btn-danger">Delete</a>
-
+                    <a href="edit_register_user.php?user_id=<?php echo urlencode($user_id); ?>" class="btn btn-warning" alert()>Edit</a>
+                    <a href="delete_register_user.php?user_id=<?php echo urlencode($user_id); ?>" onclick="return confirm('Are you sure you want to delete this user?')" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
     <?php

@@ -14,7 +14,7 @@ $link = mysqli_connect("localhost", "root", "root", "E_commerce_website");
 if (!$link) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
+$nameErr=$emailErr='';
 $user_id = $_GET['user_id'];
 $query = "SELECT * FROM e_login_table WHERE id = '$user_id'";
 $result = mysqli_query($link, $query);
@@ -28,11 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (empty($name)) {
         $errors[] = "Name is required.";
+        $nameErr = "Name is require";
     }
     if (empty($email)) {
         $errors[] = "Email is required.";
+        $emailErr = "Email is require";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Invalid email format.";
+        $emailErr = "Email is require";
     }
 
     if (empty($errors)) {
@@ -65,15 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     </div>
     <h2 class="text-center">Edit User</h2>
-    <?php if (!empty($errors)): ?>
-        <div class="alert alert-danger d-flex justify-content-center w-50">
-            <ul>
-                <?php foreach ($errors as $error): ?>
-                    <li><?php echo $error; ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    <?php endif; ?>
 <div class="container mt-4 d-flex justify-content-center">
 
 
@@ -84,10 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" id="name" name="name" value="<?php echo isset($name) ? $user['name'] : $user['name']; ?>" >
+            <span style="color:red"><?php echo $nameErr;?> </span>       
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($email) ? $user['email'] : $user['email']; ?>">
+            <span style="color:red"><?php echo $emailErr;?> </span>         
         </div>
         <button type="submit" class="btn btn-primary">Save Changes</button>
     </form>

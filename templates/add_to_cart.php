@@ -56,7 +56,7 @@ if (isset($_GET["product_id"]) && isset($_GET["user_id"])) {
             $cart_result = mysqli_query($link, $cart_query);
             if($cart_result)
             {
-                header("Location:show_cart_items.php?user_id=$user_id");
+                header("Location:welcome.php?user_id=$user_id&cart_message=$product_name added to cart successfully");
             }
         }
         //remove echo part which is showing the cart particular cart item

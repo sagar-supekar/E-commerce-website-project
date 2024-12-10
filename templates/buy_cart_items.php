@@ -17,7 +17,6 @@ if (!$link) {
 $user_id = $_GET['user_id'];
 $query = "SELECT * FROM cart_details WHERE user_id = '$user_id'";
 $result = mysqli_query($link, $query);
-
 if ($result && mysqli_num_rows($result) > 0) {
     $total_price = 0;
     $total_items = 0;
@@ -39,7 +38,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                 </thead>
                 <tbody>
     ";
-
+   
     while ($row = mysqli_fetch_assoc($result)) {
         $product_name = htmlspecialchars($row['product_name']);
         $product_price = $row['price'];
@@ -89,6 +88,8 @@ if ($result && mysqli_num_rows($result) > 0) {
 } else {
     echo "No products found in your cart.";
 }
+//echo "address details are"; 
+
 
 mysqli_close($link);
 ?>

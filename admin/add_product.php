@@ -75,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $image_tmp = $_FILES['product_image']['tmp_name'];
         $upload_dir = 'uploads/';
         $image_path = $upload_dir . basename($image_name);
-
+        //echo $image_path;
+        echo $image_tmp;
         $valid_image_types = ['image/jpeg', 'image/png', 'image/gif'];
         $image_type = mime_content_type($image_tmp);
 

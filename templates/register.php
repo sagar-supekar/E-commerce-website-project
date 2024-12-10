@@ -204,6 +204,12 @@ ob_end_flush();
         .text-primary {
             color: #007BFF;
         }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border-width: 0.3em;
+        }
     </style>
 </head>
 
@@ -214,6 +220,11 @@ ob_end_flush();
         <div class="registration-container">
             <form id="registerForm" method="POST">
                 <h2 class="form-header d-flex justify-content-content">Register</h2>
+                <div id="spinner" style="display:none; text-align: center;">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <div>
                     <input type="text" id="name" placeholder="Full Name" name="full-name" class="input-field"
                         value="<?php echo isset($_POST['full-name']) ? htmlspecialchars($_POST['full-name']) : ''; ?>">
@@ -243,6 +254,16 @@ ob_end_flush();
     </div>
 
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("registerForm");
+        const spinner = document.getElementById("spinner");
+
+        form.addEventListener("submit", function(e) {
+            spinner.style.display = "block";
+        });
+    });
+</script>
 
 </html>
 <?php

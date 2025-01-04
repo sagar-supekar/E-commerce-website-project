@@ -126,7 +126,7 @@ mysqli_close($link);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
     <style>
-        .main-container{
+        .main-container {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0 auto;
@@ -193,13 +193,13 @@ mysqli_close($link);
 
 <body class="main-container">
     <div class="form-container my-2">
-    <div class="d-flex justify-content-start">
-        <a href="admin_home.php" 
-        class="btn-close" 
-        aria-label="Close" 
-        style="font-size: 24px; text-decoration: none;"></a>
+        <div class="d-flex justify-content-start">
+            <a href="admin_home.php"
+                class="btn-close"
+                aria-label="Close"
+                style="font-size: 24px; text-decoration: none;"></a>
 
-    </div>
+        </div>
         <h2>Add Product</h2>
         <?php if (!empty($success_msg)) echo "<p style='color: green;'>$success_msg</p>"; ?>
         <form method="POST" enctype="multipart/form-data">
@@ -211,27 +211,29 @@ mysqli_close($link);
             <div class="form-group">
                 <label for="category">Category:</label>
                 <select id="category" name="category">
-                    <option value="Select Category" <?php echo ($category == 'Select Category') ? 'selected' : ''; ?>>Select Category</option>
-                    <option value="mobile" <?php echo ($category == 'mobile') ? 'selected' : ''; ?>>Mobile</option>
-                    <option value="electronics" <?php echo ($category == 'electronics') ? 'selected' : ''; ?>>Electronics</option>
-                    <option value="appliances" <?php echo ($category == 'appliances') ? 'selected' : ''; ?>>Appliances</option>
+                    <option id="select-category" value="Select Category" <?php echo ($category == 'Select Category') ? 'selected' : ''; ?>>Select Category</option>
+                    <option id="mobile" value="mobile" <?php echo ($category == 'mobile') ? 'selected' : ''; ?>>Mobile</option>
+                    <option id="electronics" value="electronics" <?php echo ($category == 'electronics') ? 'selected' : ''; ?>>Electronics</option>
+                    <option id="appliances" value="appliances" <?php echo ($category == 'appliances') ? 'selected' : ''; ?>>Appliances</option>
                 </select>
                 <small style="color: red;"><?php echo $category_err; ?></small>
             </div>
-            <div class="form-group">
+
+            <div class="form-group" id="subcategory-container">
                 <label for="subcategory">Subcategory:</label>
                 <select id="subcategory" name="subcategory">
-                    <option value="Select Subcategory" <?php echo ($subcategory == 'Select Subcategory') ? 'selected' : ''; ?>>Select Subcategory</option>
-                    <option value="keypad" <?php echo ($subcategory == 'keypad') ? 'selected' : ''; ?>>Keypad</option>
-                    <option value="touchpad" <?php echo ($subcategory == 'touchpad') ? 'selected' : ''; ?>>Touchpad</option>
-                    <option value="laptop" <?php echo ($subcategory == 'laptop') ? 'selected' : ''; ?>>Laptop</option>
-                    <option value="earbuds" <?php echo ($subcategory == 'earbuds') ? 'selected' : ''; ?>>Earbuds</option>
-                    <option value="washing_machine" <?php echo ($subcategory == 'washing_machine') ? 'selected' : ''; ?>>Washing Machine</option>
-                    <option value="refrigerator" <?php echo ($subcategory == 'refrigerator') ? 'selected' : ''; ?>>Refrigerator</option>
-                    <option value="smartwatch" <?php echo ($subcategory == 'smartwatch') ? 'selected' : ''; ?>>Smartwatch</option>
+                    <option id="select-subcategory" value="Select Subcategory" <?php echo ($subcategory == 'Select Subcategory') ? 'selected' : ''; ?>>Select Subcategory</option>
+                    <option id="keypad" value="keypad" style="display:none;" <?php echo ($subcategory == 'keypad') ? 'selected' : ''; ?>>Keypad</option>
+                    <option id="touchpad" value="touchpad" style="display:none;" <?php echo ($subcategory == 'touchpad') ? 'selected' : ''; ?>>Touchpad</option>
+                    <option id="laptop" value="laptop" style="display:none;" <?php echo ($subcategory == 'laptop') ? 'selected' : ''; ?>>Laptop</option>
+                    <option id="earbuds" value="earbuds" style="display:none;" <?php echo ($subcategory == 'earbuds') ? 'selected' : ''; ?>>Earbuds</option>
+                    <option id="smartwatch" value="smartwatch" style="display:none;" <?php echo ($subcategory == 'smartwatch') ? 'selected' : ''; ?>>Smartwatch</option>
+                    <option id="washing_machine" value="washing_machine" style="display:none;" <?php echo ($subcategory == 'washing_machine') ? 'selected' : ''; ?>>Washing Machine</option>
+                    <option id="refrigerator" value="refrigerator" style="display:none;" <?php echo ($subcategory == 'refrigerator') ? 'selected' : ''; ?>>Refrigerator</option>
                 </select>
                 <small style="color: red;"><?php echo $subcategory_err; ?></small>
             </div>
+
             <div class="form-group">
                 <label for="price">Price:</label>
                 <input type="number" id="price" name="price" value="<?php echo htmlspecialchars($product_price); ?>">
@@ -255,6 +257,53 @@ mysqli_close($link);
             <button type="submit">Add Product</button>
         </form>
     </div>
+    <script>
+        let category = document.getElementById('category');
+        let subcategory=document.getElementById('subcategory');
+        category.addEventListener('change', function() {
+            let allSubcategories = document.querySelectorAll('#subcategory option');
+            allSubcategories.forEach(option => {
+                if (option.value !== "Select Subcategory") {
+                    option.style.display = 'none';
+                }
+            });
+
+            let selectedCategory = category.value;
+            subcategory.value = "Select Subcategory";
+            if (selectedCategory === 'mobile') {
+                document.getElementById('keypad').style.display = 'block';
+                document.getElementById('touchpad').style.display = 'block';
+                // document.getElementById('electronics').style.display='none';
+                // document.getElementById('appliances').style.display='none';
+            } else if (selectedCategory === 'electronics') {
+                document.getElementById('laptop').style.display = 'block';
+                document.getElementById('earbuds').style.display = 'block';
+                document.getElementById('smartwatch').style.display = 'block';
+                // document.getElementById('mobile').style.display='none';
+                // document.getElementById('appliances').style.display='none';
+            } else if (selectedCategory === 'appliances') {
+                document.getElementById('washing_machine').style.display = 'block';
+                document.getElementById('refrigerator').style.display = 'block';
+                // document.getElementById('mobile').style.display='none';
+                // document.getElementById('electronics').style.display='none';
+            }
+            else if(selectedCategory==='Select Category')
+            {
+                allSubcategories.forEach(option => {
+                if (option.value !== "Select category") {
+                    option.style.display = 'none';
+                    
+                }
+                });
+                // let a=document.getElementById('subcategory').value='select subcategory';
+                // console.log(a);
+                // console.log("select category option is clicked");
+            }
+            // let allcategories = document.querySelectorAll('#category option');
+           
+        });
+    </script>
+
 
 </body>
 

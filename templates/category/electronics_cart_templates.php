@@ -53,7 +53,6 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
         <div class="card">
           <img class="card-img-top p-3" src="/E-commerce website/admin/uploads/apple.jpeg" alt="Laptop">
           <div class="card-body">
-            <h5 class="text-center">Price: ₹ 80,000</h5>
             <a href="/E-commerce website/templates/category/laptop.php" class="btn btn-primary w-100">Laptop</a>
           </div>
         </div>
@@ -64,7 +63,6 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
         <div class="card">
           <img class="card-img-top p-4" src="/E-commerce website/admin/uploads/smartwatch.jpeg" alt="Smart Watches">
           <div class="card-body">
-            <h5 class="text-center">Price: ₹ 4,000</h5>
             <a href="/E-commerce website/templates/category/smartwatches.php" class="btn btn-primary w-100">Smart Watches</a>
           </div>
         </div>
@@ -75,7 +73,6 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
         <div class="card">
           <img class="card-img-top p-4" src="/E-commerce website/admin/uploads/earbud2.jpeg" alt="Earbuds">
           <div class="card-body">
-            <h5 class="text-center">Price: ₹ 2,000</h5>
             <a href="/E-commerce website/templates/category/earbud.php" class="btn btn-primary w-100">Earbuds</a>
           </div>
         </div>

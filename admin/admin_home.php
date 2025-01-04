@@ -61,6 +61,12 @@ if (!$result) {
 
     <!-- jQuery (required for Bootstrap 5 modals and other components) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
 

@@ -50,7 +50,6 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
         <div class="card" style="width: 18rem;">
           <img class="card-img-top p-2" src="/E-commerce website/admin/uploads/wm2.jpeg" alt="Washing Machine">
           <div class="card-body">
-            <h5 class="text-center">Price: ₹ 30,000</h5>
             <a href="/E-commerce website/templates/category/washing_machine.php" class="btn btn-primary w-100">Washing Machine</a>
           </div>
         </div>
@@ -61,7 +60,6 @@ include("/home/web/public_html/E-commerce website/includes/second_header.php");
         <div class="card" style="width: 28rem;">
           <img class="card-img-top p-2" src="/E-commerce website/admin/uploads/rf3.jpeg" alt="Refrigerator">
           <div class="card-body">
-            <h5 class="text-center">Price: ₹ 45,000</h5>
             <a href="/E-commerce website/templates/category/refregirator.php" class="btn btn-primary w-100">Refrigerator</a>
           </div>
         </div>
